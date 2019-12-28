@@ -5,10 +5,15 @@
 #ifndef UNTITLED1_SERVER_H
 #define UNTITLED1_SERVER_H
 
+#include <string>
+using namespace std;
+
 
 class Server {
+    int Myclient_socket;
 public:
     int openServer();
+    string readFromClient();
 };
 
 

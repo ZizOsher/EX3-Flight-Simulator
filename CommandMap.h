@@ -1,0 +1,31 @@
+#ifndef UNTITLED1_COMMANDMAP_H
+#define UNTITLED1_COMMANDMAP_H
+
+#include <unordered_map>
+#include <string>
+#include "Commands.h"
+
+using namespace std;
+
+class CommandMap {
+
+private:
+    CommandMap();
+    //using pointer to connect between stirng and command in hash function
+    // because int as a pointer has a hash function
+    unordered_map <string, Command*> commandMap;
+
+public:
+
+    CommandMap(CommandMap const&) = delete;
+    // in = we create a new copy of the map;
+    void operator= (CommandMap const&) = delete;
+
+    static CommandMap& getInstance();
+    Command* getCommand(string symbol);
+    bool isInMap(string symbol);
+    void addCommand(string symbol, Command* command);
+};
+
+
+#endif //UNTITLED1_COMMANDMAP_H

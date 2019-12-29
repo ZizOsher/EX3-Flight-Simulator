@@ -1,6 +1,3 @@
-//
-// Created by Daniela Stepanov on 11/30/19.
-//
 
 // Server side C/C++ program to demonstrate Socket programming
 #include <sys/socket.h>
@@ -12,7 +9,7 @@
 #include "Server.h"
 
 
-#define PORT 8081
+#define PORT 5400
 int Server::openServer()
 {
     //create socket
@@ -47,14 +44,16 @@ int Server::openServer()
     }
 
     // accepting a client
-    socklen_t addrlen;
-    int client_socket = accept(socketfd, (struct sockaddr *)&address, &addrlen);
+    socklen_t addrlen = sizeof(sockaddr_in);
+    int client_socket = accept(socketfd, (struct sockaddr*)&address, &addrlen);
     
     if (client_socket == -1) {
         std::cerr<<"Error accepting client"<<std::endl;
         return -4;
     }
 
+    this->Myclient_socket = client_socket;
+//////////////////////////////////////////////////////////////////////////////////
     close(socketfd); //closing the listening socket
 
     //reading from client
@@ -67,5 +66,13 @@ int Server::openServer()
     send(client_socket , hello , strlen(hello) , 0 );
     std::cout<<"Hello message sent\n"<<std::endl;
     return 0;
+
+}
+
+string Server::readFromClient() {
+    int size = 1024;
+    char buffer[size];
+    int valread = read( this->Myclient_socket , buffer, 1024);
+    return string(buffer);
 
 }

@@ -1,20 +1,29 @@
-//
-// Created by hadar on 24/12/2019.
-//
 
-#ifndef UNTITLED1_SERVER_H
-#define UNTITLED1_SERVER_H
+#ifndef UNTITLED1_OPENDATASERVER_H
+#define UNTITLED1_OPENDATASERVER_H
 
 #include <string>
+#include <array>
+#include <unordered_map>
+#include <mutex>
 using namespace std;
 
 
 class Server {
+
+private:
+    int size = 200000;
     int Myclient_socket;
+    mutex mutex1;
+
+    double infoInDoubleType;
+    double arrayOfTokens[36];
+    unordered_map <string, double> mapForUpdateSimultorInfo;
 public:
     int openServer();
-    string readFromClient();
+    void splitAndPutIntoMap(int size, char* buffer) ;
+
 };
 
 
-#endif //UNTITLED1_SERVER_H
+#endif //UNTITLED1_OPENDATASERVER_H

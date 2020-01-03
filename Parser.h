@@ -1,16 +1,16 @@
 #ifndef UNTITLED1_PARSER_H
 #define UNTITLED1_PARSER_H
 
-#include "Commands.h"
+#include "Command.h"
 #include "vector"
 #include "unordered_map"
 #include <thread>
 
 using namespace std;
 
-class Parser{
+class Parser {
 public:
-    void parse(vector<string> myVector);
+    static void parse(vector<string> LexerResult);
 };
 
 

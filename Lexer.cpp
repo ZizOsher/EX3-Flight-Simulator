@@ -51,7 +51,7 @@ list<string> splitByParen(string input) {
         }
         input.erase(0, pos + delimiterOffset);
     }
-    if (res.empty()) {
+    if (res.empty() && !input.empty()) {
         res.push_back(input);
     }
     return res;
@@ -69,7 +69,9 @@ list<string> splitByQuotes(string input) {
         if (inQuotes) {
             token = '"' + token + '"';
         }
-        res.push_back(token);
+        if (!token.empty()) {
+            res.push_back(token);
+        }
         inQuotes = !inQuotes;
         pos++;
         input.erase(0, pos);

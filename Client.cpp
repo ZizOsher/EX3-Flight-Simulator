@@ -1,20 +1,21 @@
+// Client side C/C++ program to demonstrate Socket programming
 #include <sys/socket.h>
-#include <string>
 #include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <cstring>
 #include "Client.h"
 
-#define PORT 8081
-int Client::openClient() {
+using namespace std;
 
+#define PORT 5402
+
+int Client::openClient() {
     //create socket
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
         //error
-        std::cerr << "Could not create a socket"<<std::endl;
+        std::cerr << "Could not create a socket" << std::endl;
         return -1;
     }
 
@@ -27,28 +28,31 @@ int Client::openClient() {
     // to a number that the network understands.
 
     // Requesting a connection with the server on local host with port 8081
-    int is_connect = connect(client_socket, (struct sockaddr *)&address, sizeof(address));
+    int is_connect = connect(client_socket, (struct sockaddr *) &address, sizeof(address));
     if (is_connect == -1) {
-        std::cerr << "Could not connect to host server"<<std::endl;
+        std::cerr << "Could not connect to host server" << std::endl;
         return -2;
     } else {
-        std::cout<<"Client is now connected to server" <<std::endl;
+        std::cout << "Client is now connected to server" << std::endl;
     }
 
-    //if here we made a connection
-    char hello[] = "Hi from client";
-    int is_sent = send(client_socket , hello , strlen(hello) , 0 );
-    if (is_sent == -1) {
-        std::cout<<"Error sending message"<<std::endl;
-    } else {
-        std::cout<<"Hello message sent to server" <<std::endl;
-    }
-
-    char buffer[1024] = {0};
-    int valread = read( client_socket , buffer, 1024);
-    std::cout<<buffer<<std::endl;
+    sendMessage(client_socket, "hello");
 
     close(client_socket);
 
     return 0;
 }
+
+
+void Client::sendMessage(int client_socket, string messeage) {
+
+    //if here we made a connection
+    int is_sent = send(client_socket, messeage.c_str(), messeage.size(), 0);
+    if (is_sent == -1) {
+        std::cout << "Error sending message" << std::endl;
+    } else {
+        std::cout << "Hello message sent to server" << std::endl;
+    }
+}
+
+//void close()

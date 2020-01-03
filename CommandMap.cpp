@@ -12,6 +12,7 @@ CommandMap& CommandMap::getInstance() {
 }
 
 Command *CommandMap::getCommand(string symbol) {
+
     return this->commandMap[symbol];
 }
 

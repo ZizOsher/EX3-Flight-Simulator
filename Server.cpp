@@ -9,7 +9,6 @@
 #include <cstring>
 
 #define PORT 5400
-
 int Server::openServer() {
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -50,22 +49,23 @@ int Server::openServer() {
         std::cerr << "Error accepting client" << std::endl;
         return -4;
     }
-
-    // this-> Myclient_socket = client_socket;
+    cout << "client execpted" << endl;
+    Myclient_socket = client_socket;
+    isConnected = true;
+    readFromClient();
+    return 1;
+}
 
     //reading from client
-    /*
-    char buffer[1024] = {0};
-    int valread = read(client_socket , buffer, 1024);
-*/
+void Server:: readFromClient(){
     char buffer[200000] = {0};
     // first get into the while, until reading ending reading from the simulator
-    int valread = 1;
+    int valread = 0;
     // as long there is information from the simulator
-    while (valread > 0) {
+    while (isConnected == true && valread!= -1){
         // lock the acess to the map
         mutex1.lock();
-        int valread = read(client_socket, buffer, size);
+        int valread = read(Myclient_socket, buffer, size);
         splitAndPutIntoMap(size, buffer);
 
         // unlock the acess to the map
@@ -74,34 +74,13 @@ int Server::openServer() {
 
     std::cout<<buffer<<std::endl;
 
-    close(socketfd); //closing the listening socket
+    close(Myclient_socket); //closing the listening socket
 }
 void Server::splitAndPutIntoMap(int size, char* buffer) {
 
-    // Splits str[] according to ','.
-    // and returns next token.
-    // It needs to be called
-    // in a loop to get all tokens. It returns NULL
-    // when there are no more tokens.
-    int i=0;
-    const char deli[2] = ",";
-    // Returns first token
-    char* token= strtok(buffer,deli);
-    arrayOfTokens[i]= atof(token);
 
-    // go over all the other tokens
-    for(i=1; i<size; i++){
-        printf("%s\n", token);
-        // after it, put the token into the map in order
+    
 
-        // convert the token form string into double
-        infoInDoubleType = atof(token);
-        arrayOfTokens[i] = infoInDoubleType;
-
-        //If you pass a NULL value, you are asking to
-        // continue tokenizing the same string as before.
-        token = strtok(NULL,deli);
-    }
 
     mapForUpdateSimultorInfo["/instrumentation/airspeed-indicator/indicated-speed-kt"] = arrayOfTokens[0];
     mapForUpdateSimultorInfo["/sim/time/warp"] = arrayOfTokens[1];
@@ -140,3 +119,36 @@ void Server::splitAndPutIntoMap(int size, char* buffer) {
     mapForUpdateSimultorInfo["/controls/switches/master-alt"] = arrayOfTokens[34];
     mapForUpdateSimultorInfo["/engines/engine/rpm"] = arrayOfTokens[35];
 }
+
+/*
+ *     // Splits str[] according to ','.
+    // and returns next token.
+    // It needs to be called
+    // in a loop to get all tokens. It returns NULL
+    // when there are no more tokens.
+    int i=0;
+    const char deli[2] = ",";
+    // Retu // Splits str[] according to ','.
+    // and returns next token.
+    // It needs to be called
+    // in a loop to get all tokens. It returns NULL
+    // when there are no more tokens.
+    int i=0;
+    const crns first token
+    char* token= strtok(buffer,deli);
+    arrayOfTokens[i]= atof(token);
+
+    // go over all the other tokens
+    for(i=1; i<36; i++){
+        printf("%s\n", token);
+        // after it, put the token into the map in order
+
+        // convert the token form string into double
+        infoInDoubleType = atof(token);
+        arrayOfTokens[i] = infoInDoubleType;
+
+        //If you pass a NULL value, you are asking to
+        // continue tokenizing the same string as before.
+        token = strtok(NULL,deli);
+    }
+ */

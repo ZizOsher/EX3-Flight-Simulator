@@ -14,6 +14,7 @@ class Server {
 private:
     int size = 200000;
     int Myclient_socket;
+    bool isConnected = false;
     mutex mutex1;
 
     double infoInDoubleType;
@@ -22,6 +23,7 @@ private:
 public:
     int openServer();
     void splitAndPutIntoMap(int size, char* buffer) ;
+    void readFromClient();
 
 };
 

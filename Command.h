@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include "Server.h"
+#include "Client.h"
 
 using namespace std;
 
@@ -27,6 +28,9 @@ public:
 };
 
 class ConnectCommand: public Command{
+private:
+    thread* clientThread;
+public:
     int execute(itr itr1)override ;
 
 };

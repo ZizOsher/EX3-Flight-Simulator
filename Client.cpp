@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <cstring>
 #include "Client.h"
 
 using namespace std;
@@ -34,25 +35,20 @@ int Client::openClient() {
         return -2;
     } else {
         std::cout << "Client is now connected to server" << std::endl;
+        sendMessage(client_socket, "set controls/flight/rudder -1");
     }
-
-    sendMessage(client_socket, "hello");
-
     close(client_socket);
-
     return 0;
 }
 
-
-void Client::sendMessage(int client_socket, string messeage) {
+void Client::sendMessage(int client_socket, string message) {
 
     //if here we made a connection
-    int is_sent = send(client_socket, messeage.c_str(), messeage.size(), 0);
+ //   int is_sent = send(client_socket, message.c_str(), message.size(), 0);
+    int is_sent = send(client_socket , "set controls/flight/rudder -1" , strlen("set controls/flight/rudder -1"), 0 );
     if (is_sent == -1) {
         std::cout << "Error sending message" << std::endl;
     } else {
         std::cout << "Hello message sent to server" << std::endl;
     }
 }
-
-//void close()

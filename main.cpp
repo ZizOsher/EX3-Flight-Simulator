@@ -18,22 +18,26 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
+    /*
 vector<string> vectorofStrings;
 vectorofStrings = Lexer::lexer("fly.txt");
 Parser::parse(vectorofStrings);
 }
+     */
 
 
-// test for server and client /////////////////////////////////
+// test for server and client ////te/////////////////////////////
     // check the server
 /*
     vector<string> vec = {"openDateServer", "5400"};
     openDateServer o;
     o.execute(vec.begin());
     o.joinThread();
-/*
+*/
+
     // check the client
     Client client;
     client.openClient();
-*/
+
 ////////////////////////////////////////////////////////////////////////////
+}

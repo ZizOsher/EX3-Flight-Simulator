@@ -6,6 +6,7 @@ using namespace std;
 typedef struct argsForOpenServerFnction{
 }argsForServer;
 */
+
 void openServerToThread(){
     Server s;
     s.openServer();
@@ -17,9 +18,13 @@ int openDateServer::execute(itr itr1) {
     return 0;
 };
 
+void openClientThread(){
+    Client c;
+    c.openClient();
+}
 
 int ConnectCommand::execute(itr itr1) {
-
+    clientThread = new thread(openClientThread);
 };
 
 int DefineVarCommand::execute(itr itr1) {

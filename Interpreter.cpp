@@ -1,121 +1,11 @@
-//
-// Created by osher on 11/11/2019.
-//
-
-#include "ex1.h"
-#include "Expression.h"
+#include "Expressions.h"
+#include "Interpreter.h"
 #include <iostream>
 #include <stack>
 #include <queue>
 #include <map>
 #include <list>
 #include <stdexcept>
-using namespace std;
-
-double Value::calculate() {
-    return this->value;
-}
-
-double Variable::calculate() {
-    return this->value;
-}
-
-Variable& Variable::operator++() {
-    ++this->value;
-    return *this;
-}
-
-Variable& Variable::operator--() {
-    --this->value;
-    return *this;
-}
-
-Variable& Variable::operator+=(double d) {
-    this->value += d;
-    return *this;
-}
-
-Variable& Variable::operator-=(double d) {
-    this->value -= d;
-    return *this;
-}
-
-Variable& Variable::operator++(int i) {
-    this->value++;
-    return *this;
-}
-
-Variable& Variable::operator--(int i) {
-    this->value--;
-    return *this;
-}
-
-UnaryOperator::~UnaryOperator() {
-    //delete this->exp;
-}
-
-double UPlus::calculate() {
-    return this->exp->calculate();
-}
-
-UPlus::~UPlus() {
-    delete this->exp;
-}
-
-double UMinus::calculate() {
-    return ((-1) * (this->exp->calculate()));
-}
-
-UMinus::~UMinus() {
-    delete this->exp;
-}
-
-BinaryOperator::~BinaryOperator() {}
-
-double Plus::calculate() {
-    return this->left->calculate() + this->right->calculate();
-}
-
-Plus::~Plus() {
-    delete this->left;
-    delete this->right;
-}
-
-double Minus::calculate() {
-    return this->left->calculate() - this->right->calculate();
-}
-
-Minus::~Minus() {
-    delete this->left;
-    delete this->right;
-}
-
-double Div::calculate() {
-    try {
-        double r = this->right->calculate();
-        if (r == 0) {
-            throw "Zero division is not defined.";
-        } else {
-            return this->left->calculate() / r;
-        }
-    } catch(const char &e) {
-        throw e;
-    }
-}
-
-Div::~Div() {
-    delete this->left;
-    delete this->right;
-}
-
-double Mul::calculate() {
-    return (this->left->calculate() * this->right->calculate());
-}
-
-Mul::~Mul() {
-    delete this->left;
-    delete this->right;
-}
 
 Interpreter::~Interpreter() {}
 
@@ -131,7 +21,6 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
     stack<string> operatorStack;
     queue<string> outputQueue;
     int index = 0;
-
     while (index < inputToParse.size()) {
         char token;
         token = inputToParse[index];
@@ -143,26 +32,26 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
             outputQueue.push(num);
             index += (num.length());
             continue;
-        // Check if Variable
+            // Check if Variable
         } else if (isalpha(token) != 0) {
             string var;
-            var +=  findVarInStr(inputToParse, index);
+            var += findVarInStr(inputToParse, index);
             outputQueue.push(var);
             index += (var.length());
             continue;
-        // Check if operator
+            // Check if operator
         } else if (this->operators.find(token) != string::npos) {
             string opr;
             if (token == '+') {
                 if (index + 1 > inputToParse.size()) {      // Handles a binary operator at the end of the string.
                     throw "Invalid input.";
                 } else if ((isalnum(inputToParse[index+1]) != 0 || inputToParse[index+1] == '(')
-                                && inputToParse[index - 1] != '(') {    // Standard "+" operation
+                           && inputToParse[index - 1] != '(') {    // Standard "+" operation
                     opr = "+";
                 } else if (index == 0 && (operators.find(inputToParse[index + 1]) == string::npos)) {  // Unary operator (treated like a function)
                     opr = "(+(";
                 } else if (inputToParse[index - 1] == '('
-                        && (inputToParse[index + 1] == '(' || isdigit(inputToParse[index + 1]))) { // Also unary
+                           && (inputToParse[index + 1] == '(' || isdigit(inputToParse[index + 1]))) { // Also unary
                     opr = "(+(";
                     //skip = 2;
                 } else {
@@ -183,7 +72,7 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
                     index += (num.length());
                     continue;
                 } else if (((isalnum(inputToParse[index - 1])) || (inputToParse[index - 1] == ')'))
-                    && ((isalnum(inputToParse[index + 1])) || (inputToParse[index + 1] == '('))) {
+                           && ((isalnum(inputToParse[index + 1])) || (inputToParse[index + 1] == '('))) {
                     opr = "-";
                 } else {
                     throw "illegal math expression.";

@@ -9,22 +9,22 @@ using namespace std;
 
 class CommandMap {
 
-private:
-    CommandMap();
-    //using pointer to connect between stirng and command in hash function
-    // because int as a pointer has a hash function
-    unordered_map <string, Command*> commandMap;
+    private:
+        CommandMap();
+        //using pointer to connect between string and command in hash function
+        // because int as a pointer has a hash function
+        unordered_map <string, Command*> commandMap;
 
-public:
+    public:
+        CommandMap(CommandMap const&) = delete;
+        // in = we create a new copy of the map;
+        void operator= (CommandMap const&) = delete;
 
-    CommandMap(CommandMap const&) = delete;
-    // in = we create a new copy of the map;
-    void operator= (CommandMap const&) = delete;
-
-    static CommandMap& getInstance();
-    Command* getCommand(string symbol);
-    bool isInMap(string symbol);
-    void addCommand(string symbol, Command* command);
+        static CommandMap& getInstance();
+        Command* getCommand(string symbol);
+        bool isInMap(string symbol);
+        void addCommand(string symbol, Command* command);
+        void buildCommandMap();
 };
 
 

@@ -12,7 +12,6 @@ CommandMap& CommandMap::getInstance() {
 }
 
 Command *CommandMap::getCommand(string symbol) {
-
     return this->commandMap[symbol];
 }
 
@@ -22,4 +21,11 @@ bool CommandMap::isInMap(string symbol) {
 
 void CommandMap::addCommand(string symbol, Command* command) {
     this->commandMap[symbol]=command;
+}
+
+void CommandMap::buildCommandMap() {
+    addCommand("OpenServerCommand", new OpenServerCommand());
+    addCommand("connectControlClient", new ConnectCommand());
+    addCommand("var", new DefineVarCommand());
+    //addCommand("Print", new PrintCommand());
 }

@@ -19,7 +19,7 @@ private:
 
     double infoInDoubleType;
     double arrayOfTokens[36];
-    unordered_map <string, double> mapForUpdateSimultorInfo;
+    //unordered_map <string, double> mapForUpdateSimultorInfo;
 public:
     int openServer();
     void splitAndPutIntoMap(int size, char* buffer) ;

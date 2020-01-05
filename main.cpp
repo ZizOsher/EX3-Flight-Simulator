@@ -18,9 +18,9 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-vector<string> vectorofStrings;
-vectorofStrings = Lexer::lexer("fly.txt");
-Parser::parse(vectorofStrings);
+    vector<string> vectorofStrings;
+    vectorofStrings = Lexer::lexer("fly.txt");
+    Parser::parse(vectorofStrings);
 }
 
 

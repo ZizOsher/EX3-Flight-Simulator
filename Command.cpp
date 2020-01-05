@@ -11,22 +11,17 @@ void openServerToThread(){
     s.openServer();
 }
 
-int openDateServer::execute(itr itr1) {
+int OpenServerCommand::execute(itr itr1) {
     //send the funtion to thre ad
      MyThread = new thread(openServerToThread);
-    return 0;
+    return 2;
 };
-
 
 int ConnectCommand::execute(itr itr1) {
 
 };
 
-int DefineVarCommand::execute(itr itr1) {
-
-};
-
-void openDateServer::joinThread() {
+void OpenServerCommand::joinThread() {
     if(MyThread->joinable()){
         MyThread->join();
     }

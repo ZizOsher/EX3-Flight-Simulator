@@ -6,9 +6,9 @@
 using namespace std;
 
 class PrintCommand {
-private:
 public:
-    void printText(string str);
+    static void printText(string str);
+
 };
 
 #endif //UNTITLED1_PRINTCOMMAND_H

@@ -26,6 +26,10 @@ class OpenServerCommand: public Command {
 };
 
 class ConnectCommand: public Command {
+private:
+    // create thread only when it's needed
+    thread* clientThread;
+public:
     int execute(itr itr1) override;
 };
 
@@ -40,7 +44,6 @@ class VarAssignCommand: public Command {
 class PrintCommand: public Command {
     int execute(itr itr1) override;
     static void printText(string str);
-
 };
 
 class SleepCommand: public Command {

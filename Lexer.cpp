@@ -52,7 +52,7 @@ list<string> splitByParen(string input) {
     } else {
         size_t openParenPos = input.find('(');
         string token1 = input.substr(0, openParenPos);
-        string token2 = input.substr(openParenPos + 1, input.size() - openParenPos - 1);
+        string token2 = input.substr(openParenPos + 1, input.size() - openParenPos - 2);
         res.push_back(token1);
         if (!token2.empty()) {
             res.push_back(token2);

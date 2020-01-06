@@ -72,7 +72,7 @@ void Server:: readFromClient(){
 
         // unlock the acess to the map
         mutex1.unlock();
-        cout << "ASDFGHJK" << endl;
+        //cout << "ASDFGHJK" << endl;
     }
 
     std::cout<<buffer<<std::endl;
@@ -82,9 +82,9 @@ void Server:: readFromClient(){
 void Server::splitAndPutIntoMap(int size, char* buffer) {
 
     // collect chars
-    string item= "";
+    string item = "";
     double val;
-    double numforIndex36=0;
+    double numforIndex36 = 0;
     unsigned int arrayIndex = 0;
     for(int i=0; i< size; i++){
 

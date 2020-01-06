@@ -12,7 +12,7 @@ void openServerToThread(){
 int OpenServerCommand::execute(itr itr1) {
 //send the funtion to thre ad
     MyThread = new thread(openServerToThread);
-    return 0;
+    return 2;
 }
 
 void OpenServerCommand::joinThread() {

@@ -5,6 +5,9 @@
 
 using namespace std;
 
+
+// TODO: Remove this header
+
 class PrintCommand {
 public:
     static void printText(string str);

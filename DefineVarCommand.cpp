@@ -15,7 +15,7 @@ int DefineVarCommand::execute(itr itr1) {
     itr1++;
     string bind = *itr1;
     if (bind == "<-" || bind == "->") {
-        itr1++;
+        itr1 += 2;
         string sim = *itr1;
         if (bind == "<-") {
             double value = SimIncomingInfo::getInstance().getValue(name);
@@ -29,5 +29,5 @@ int DefineVarCommand::execute(itr itr1) {
         Variable* res = symTable.getVariable(nameOfOtherVar);
     }
     symTable.addVariable(name, res);
-    return 4;
+    return 5;
 }

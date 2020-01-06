@@ -11,11 +11,11 @@ void Parser::parse(vector<string> LexerResult) {
             // itr is iterator for the string and *index is a string itself
             Command *command = CommandMap::getInstance().getCommand(*index);
             // if the command exists
-            if (command != NULL) {
+            if (command != nullptr) {
                 index += command->execute(index);
             }
         } else {
-            index += 1;
+            index++;
         }
     }
 }

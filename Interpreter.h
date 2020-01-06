@@ -34,6 +34,10 @@ public:
     //void handleOperatorFromStack(stack<Expression*> res, const string &item);
     bool isaNumber(const string &str);
     //bool isaVariable(const string &str);
+    Interpreter(Interpreter const&) = delete;
+    // in = we create a new copy of the map;
+    void operator= (Interpreter const&) = delete;
+    static Interpreter& getInstance();
     virtual ~Interpreter();
 };
 #endif //UNTITLED1_INTERPRETER_H

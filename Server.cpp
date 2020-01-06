@@ -11,7 +11,8 @@
 
 #define PORT 5400
 using namespace std;
-int Server::openServer() {
+
+int Server::openServer(itr itr1) {
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -25,7 +26,9 @@ int Server::openServer() {
     sockaddr_in address; //in means IP4
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
-    address.sin_port = htons(PORT);
+
+    int valPort = stoi(*itr1);
+    address.sin_port = htons(valPort);
     //we need to convert our number
     // to a number that the network understands.
 
@@ -51,7 +54,7 @@ int Server::openServer() {
         std::cerr << "Error accepting client" << std::endl;
         return -4;
     }
-    cout << "client execpted" << endl;
+    cout << "client accecpted" << endl;
     Myclient_socket = client_socket;
     isConnected = true;
     readFromClient();

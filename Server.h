@@ -6,8 +6,12 @@
 #include <array>
 #include <unordered_map>
 #include <mutex>
+#include "Command.h"
+
+
 using namespace std;
 
+typedef vector<string>::iterator itr;
 
 class Server {
 
@@ -21,7 +25,7 @@ private:
     double arrayOfTokens[36];
     //unordered_map <string, double> mapForUpdateSimultorInfo;
 public:
-    int openServer();
+    int openServer(itr itr1);
     void splitAndPutIntoMap(int size, char* buffer) ;
     void readFromClient();
 

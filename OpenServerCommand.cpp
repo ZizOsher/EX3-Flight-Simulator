@@ -2,16 +2,21 @@
 // Created by hadar on 06/01/2020.
 //
 
+#include <iostream>
 #include "Command.h"
+using namespace std;
 
-void openServerToThread(){
+
+void OpenServerCommand::openServerToThread(itr itr1) {
     Server s;
-    s.openServer();
+    s.openServer(itr1);
 }
 
 int OpenServerCommand::execute(itr itr1) {
-//send the funtion to thre ad
-    MyThread = new thread(openServerToThread);
+    //send the function to thread
+    itr1++;
+    MyThread = new thread(openServerToThread,itr1);
+
     return 2;
 }
 

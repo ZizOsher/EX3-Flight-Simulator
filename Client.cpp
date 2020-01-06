@@ -11,7 +11,7 @@ using namespace std;
 
 #define PORT 5402
 
-int Client::openClient() {
+int Client::openClient(itr index) {
     //create socket
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
@@ -19,12 +19,19 @@ int Client::openClient() {
         std::cerr << "Could not create a socket" << std::endl;
         return -1;
     }
+    index++;
+    string ipAdress = *index;
+
+    const char* ip = ipAdress.c_str();
+    cout << *index << endl;
+    index++;
+    int valPort = stoi(*index);
 
     //We need to create a sockaddr obj to hold address of server
     sockaddr_in address; //in means IP4
     address.sin_family = AF_INET;//IP4
-    address.sin_addr.s_addr = inet_addr("127.0.0.1");  //the localhost address
-    address.sin_port = htons(PORT);
+    address.sin_addr.s_addr = inet_addr(ip);  //the localhost address
+    address.sin_port = htons(valPort);
     //we need to convert our number (both port & localhost)
     // to a number that the network understands.
 

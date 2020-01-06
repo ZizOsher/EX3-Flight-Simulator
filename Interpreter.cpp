@@ -8,6 +8,11 @@
 
 Interpreter::~Interpreter() {}
 
+Interpreter& Interpreter::getInstance() {
+    static Interpreter oneInstance;
+    return oneInstance;
+}
+
 Expression* Interpreter::interpret(const string& inputToParse) {
     try {
         return ShuntingYard(inputToParse);

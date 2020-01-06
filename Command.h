@@ -18,11 +18,13 @@ class Command {
 
 class OpenServerCommand: public Command {
     private:
-        // create thread only when it's needed
+    itr index;
+    // create thread only when it's needed
         thread* MyThread;
     public:
         int execute(itr itr1) override;
         void joinThread();
+        static void openServerToThread(itr itr1);
 };
 
 class ConnectCommand: public Command {
@@ -31,6 +33,7 @@ private:
     thread* clientThread;
 public:
     int execute(itr itr1) override;
+    static void openClientThread(itr itr1);
 };
 
 class DefineVarCommand: public Command {

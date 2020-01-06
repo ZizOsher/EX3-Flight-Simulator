@@ -7,12 +7,12 @@
 #include <thread>
 
 
-void openClientThread(){
+void ConnectCommand::openClientThread(itr itr1) {
     Client c;
-    c.openClient();
+    c.openClient(itr1);
 }
 
 int ConnectCommand::execute(itr itr1) {
-    clientThread = new thread(openClientThread);
-    return 4;
+    clientThread = new thread(openClientThread,itr1);
+    return 5;
 };

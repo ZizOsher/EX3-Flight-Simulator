@@ -1,8 +1,8 @@
 
 #include <iostream>
-#include "PrintCommand.h"
+#include "Command.h"
 using namespace std;
 
 void PrintCommand::printText(string str) {
-    cout <<str <<endl;
+    cout << str << endl;
 }

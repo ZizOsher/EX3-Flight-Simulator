@@ -10,7 +10,12 @@ using namespace std;
 class CommandMap {
 
     private:
-        CommandMap();
+        CommandMap() {
+            addCommand("openDataServer", new OpenServerCommand());
+            addCommand("connectControlClient", new ConnectCommand());
+            addCommand("var", new DefineVarCommand());
+            //addCommand("Print", new PrintCommand());
+        }
         //using pointer to connect between string and command in hash function
         // because int as a pointer has a hash function
         unordered_map <string, Command*> commandMap;
@@ -24,7 +29,7 @@ class CommandMap {
         Command* getCommand(string symbol);
         bool isInMap(string symbol);
         void addCommand(string symbol, Command* command);
-        void buildCommandMap();
+        //void buildCommandMap();
 };
 
 

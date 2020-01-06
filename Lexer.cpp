@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include "Lexer.h"
+#include "CommandMap.h"
+#include <string>
 
 using namespace std;
 
@@ -30,7 +32,37 @@ list<string> split(string input, char delimiter) {
     return res;
 }
 
+bool isknownCommand(string input) {
+    return CommandMap::getInstance().getCommand(split(input, ' ').front()) != nullptr
+            || CommandMap::getInstance().getCommand(split(input, '(').front()) != nullptr;
+}
+
 list<string> splitByParen(string input) {
+    list<string> res;
+    if (input == ")") {
+        return res;
+    }
+    if (input[1] == '"' || !isknownCommand(input)) {
+        if ((input.find('(') == string::npos) && (input.find(')') == input.size()-1)) {
+            res.push_back(input.substr(0, input.size()-1));
+        } else {
+            res.push_back(input);
+        }
+        return res;
+    } else {
+        size_t openParenPos = input.find('(');
+        string token1 = input.substr(0, openParenPos);
+        string token2 = input.substr(openParenPos + 1, input.size() - openParenPos - 1);
+        res.push_back(token1);
+        if (!token2.empty()) {
+            res.push_back(token2);
+        }
+    }
+    if (res.empty() && !input.empty()) {
+        res.push_back(input);
+    }
+    return res;
+/*
     list<string> res;
     if (input[1] == '"') {
         res.push_back(input);
@@ -55,6 +87,7 @@ list<string> splitByParen(string input) {
         res.push_back(input);
     }
     return res;
+    */
 }
 
 list<string> splitByQuotes(string input) {
@@ -118,10 +151,15 @@ vector<string> Lexer::lexer(string filename) {
             commands.push_back(bySpace.front());
             bySpace.pop_front();
         }
+        commands.emplace_back("\n");
     }
     lexerInput.close();
+    // Print for testing: (Lexer includes newline characters.
     for (unsigned int i = 0; i < commands.size(); i++) {
         cout << commands[i] << ",";
+        /*if (commands[i] != "\n") {
+        }*/
     }
+    // ends of test print
     return commands;
 }

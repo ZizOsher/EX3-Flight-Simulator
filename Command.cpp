@@ -26,4 +26,3 @@ void OpenServerCommand::joinThread() {
         MyThread->join();
     }
 }
-

@@ -51,12 +51,14 @@ class Variable : public Expression {
             this->name = n;
         }
         double calculate();
+        //Variable& operator=(double d);
         Variable& operator++();
         Variable& operator--();
         Variable& operator+=(double d);
         Variable& operator-=(double d);
         Variable& operator++(int i);
         Variable& operator--(int i);
+        void setValue(double d);
         //virtual ~Variable() {};
 };
 

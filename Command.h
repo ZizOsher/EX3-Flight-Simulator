@@ -33,8 +33,20 @@ class DefineVarCommand: public Command {
     int execute(itr itr1) override;
 };
 
+class VarAssignCommand: public Command {
+    int execute(itr itr1) override;
+};
+
 class PrintCommand: public Command {
     int execute(itr itr1) override;
+    static void printText(string str);
+
+};
+
+class SleepCommand: public Command {
+public:
+    int execute(itr itr1) override;
+    void sleepFor(int milisceondsSleep);
 };
 
 #endif //UNTITLED1_COMMAND_H

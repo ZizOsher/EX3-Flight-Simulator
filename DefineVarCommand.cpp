@@ -4,12 +4,13 @@
 #include "Command.h"
 #include "Expressions.h"
 #include "SymbolTable.h"
+#include "SimIncomingInfo.h"
 
 using namespace std;
 
 int DefineVarCommand::execute(itr itr1) {
     SymbolTable& symTable = SymbolTable::getInstance();
-    Variable* res;
+    Variable *res = nullptr;
     string name = *itr1;
     itr1++;
     string bind = *itr1;
@@ -17,7 +18,8 @@ int DefineVarCommand::execute(itr itr1) {
         itr1++;
         string sim = *itr1;
         if (bind == "<-") {
-            // TODO: Get from map created by server
+            double value = SimIncomingInfo::getInstance().getValue(name);
+            res = new Variable(name, value, sim, false);
         } else {
             res = new Variable(name, sim, true);
         }

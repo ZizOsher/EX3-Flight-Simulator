@@ -9,13 +9,13 @@ void openServerToThread(){
     s.openServer();
 }
 
-int openDataServer::execute(itr itr1) {
+int OpenServerCommand::execute(itr itr1) {
 //send the funtion to thre ad
     MyThread = new thread(openServerToThread);
     return 0;
 }
 
-void openDataServer::joinThread() {
+void OpenServerCommand::joinThread() {
     if(MyThread->joinable()){
         MyThread->join();
     }

@@ -1,5 +1,6 @@
 #include "Expressions.h"
 #include <list>
+#include "SimIncomingInfo.h"
 
 using namespace std;
 
@@ -8,6 +9,9 @@ double Value::calculate() {
 }
 
 double Variable::calculate() {
+    if ((!this->simBindOut) && (this->sim != "")) {
+        this->value = SimIncomingInfo::getInstance().getValue(this->sim);
+    }
     return this->value;
 }
 
@@ -40,6 +44,17 @@ Variable& Variable::operator--(int i) {
     this->value--;
     return *this;
 }
+
+void Variable::setValue(double d) {
+    this->value = d;
+}
+
+/*
+Variable &Variable::operator=(double d) {
+    this->value = d;
+    return *this;
+}
+ */
 
 UnaryOperator::~UnaryOperator() {
     //delete this->exp;

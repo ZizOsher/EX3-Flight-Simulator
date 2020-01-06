@@ -4,7 +4,7 @@
 
 #include "CommandMap.h"
 
-CommandMap::CommandMap(){}
+//CommandMap::CommandMap(){}
 
 CommandMap& CommandMap::getInstance() {
     static CommandMap oneInstance;
@@ -23,9 +23,11 @@ void CommandMap::addCommand(string symbol, Command* command) {
     this->commandMap[symbol]=command;
 }
 
+/*
 void CommandMap::buildCommandMap() {
-    addCommand("OpenServerCommand", new OpenServerCommand());
+    addCommand("openDataServer", new OpenServerCommand());
     addCommand("connectControlClient", new ConnectCommand());
     addCommand("var", new DefineVarCommand());
     //addCommand("Print", new PrintCommand());
 }
+ */

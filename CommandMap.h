@@ -14,7 +14,8 @@ class CommandMap {
             addCommand("openDataServer", new OpenServerCommand());
             addCommand("connectControlClient", new ConnectCommand());
             addCommand("var", new DefineVarCommand());
-            //addCommand("Print", new PrintCommand());
+            addCommand("Print", new PrintCommand());
+            addCommand("Sleep", new SleepCommand());
         }
         //using pointer to connect between string and command in hash function
         // because int as a pointer has a hash function

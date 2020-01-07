@@ -14,5 +14,5 @@ void ConnectCommand::openClientThread(itr itr1) {
 
 int ConnectCommand::execute(itr itr1) {
     clientThread = new thread(openClientThread,itr1);
-    return 5;
+    return 4;
 };

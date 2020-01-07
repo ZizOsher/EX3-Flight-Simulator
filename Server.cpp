@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cstring>
 #include "SimIncomingInfo.h"
+#include "Interpreter.h"
+#include <math.h>
 
 #define PORT 5400
 using namespace std;
@@ -27,7 +29,9 @@ int Server::openServer(itr itr1) {
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
 
-    int valPort = stoi(*itr1);
+    Interpreter& i = Interpreter::getInstance();
+    //int valPort = stoi(*itr1);
+    int valPort = round(i.interpret(*itr1)->calculate());
     address.sin_port = htons(valPort);
     //we need to convert our number
     // to a number that the network understands.

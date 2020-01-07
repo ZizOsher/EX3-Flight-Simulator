@@ -2,7 +2,7 @@
 #include "Expressions.h"
 #include "SymbolTable.h"
 #include "Interpreter.h"
-
+#include "Client.h"
 using namespace std;
 
 /**
@@ -21,7 +21,7 @@ int VarAssignCommand::execute(itr itr1) {
     string opr = *itr1;
     if (SymTable.isInMap(subjectName)) {
         itr1++;
-        Interpreter* i = new Interpreter();
+        Interpreter& i = Interpreter::getInstance();
         string res;
         while (*itr1 != "\n") {
             if (SymTable.getVariable(*itr1)) {

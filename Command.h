@@ -9,6 +9,8 @@
 
 using namespace std;
 
+//extern int client_socket;
+
 typedef vector<string>::iterator itr;
 class Command {
     public:
@@ -46,7 +48,6 @@ class VarAssignCommand: public Command {
 
 class PrintCommand: public Command {
     int execute(itr itr1) override;
-    static void printText(string str);
 };
 
 class SleepCommand: public Command {

@@ -1,10 +1,12 @@
 #include "Expressions.h"
 #include "Interpreter.h"
+#include "Lexer.h"
 #include <iostream>
 #include <stack>
 #include <queue>
 #include <list>
 #include <stdexcept>
+#include <vector>
 
 Interpreter::~Interpreter() {}
 
@@ -13,9 +15,19 @@ Interpreter& Interpreter::getInstance() {
     return oneInstance;
 }
 
+string Interpreter::removeAllWhiteSpaces(string input) {
+    list<string> v = Lexer::split(input, ' ', input.size());
+    string res;
+    for (string s : v) {
+        res = res + s;
+    }
+    return res;
+}
+
 Expression* Interpreter::interpret(const string& inputToParse) {
     try {
-        return ShuntingYard(inputToParse);
+        string in = Interpreter::removeAllWhiteSpaces(inputToParse);
+        return ShuntingYard(in);
     } catch (const char &e) {
         throw e;
     }
@@ -146,9 +158,13 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
             resStack.push(ex);
         } else if (isalpha(item[0])) {
             try {
-                double val;
+                /*
+                 * double val;
                 val = setVarsMap[item];
                 Variable *ex = new Variable(item, val);
+                resStack.push(ex);
+                 */
+                Variable *ex = SymTable.getVariable(item);
                 resStack.push(ex);
             } catch (const char &e) {
                 string message = "Variable: ";

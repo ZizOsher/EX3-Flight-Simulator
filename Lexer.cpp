@@ -9,9 +9,9 @@
 
 using namespace std;
 
-list<string> split(string input, char delimiter) {
+list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
     list<string> res;
-    if (input[1] == '"') {
+    if (input[0] == '"') {
         res.push_back(input);
         return res;
     }
@@ -19,22 +19,27 @@ list<string> split(string input, char delimiter) {
     size_t pos = 0;
     input = input + delimiter;
     unsigned int delimiterOffset = 1;
-    while ((pos = input.find(delimiter)) != string::npos) {
+    size_t counter = 0;
+    while ((pos = input.find(delimiter)) != string::npos && counter < splitLimit) {
         token = input.substr(0, pos);
+        if (token == "var") {
+            splitLimit = 3;
+        }
         if (!token.empty()) {
             res.push_back(token);
         }
         input.erase(0, pos + delimiterOffset);
+        counter++;
     }
-    if (res.empty()) {
+    if (!input.empty() || res.empty()) {
         res.push_back(input);
     }
     return res;
 }
 
 bool isknownCommand(string input) {
-    return CommandMap::getInstance().getCommand(split(input, ' ').front()) != nullptr
-            || CommandMap::getInstance().getCommand(split(input, '(').front()) != nullptr;
+    return CommandMap::getInstance().getCommand(Lexer::split(input, ' ', 2).front()) != nullptr
+        || CommandMap::getInstance().getCommand(Lexer::split(input, '(', 2).front()) != nullptr;
 }
 
 list<string> splitByParen(string input) {
@@ -136,14 +141,14 @@ vector<string> Lexer::lexer(string filename) {
         //cout << "byParen: " << endl;
         for (auto const& i : byParen) {
             //cout << i << endl;
-            byComma.splice(byComma.end(), split(i, ','));
+            byComma.splice(byComma.end(), split(i, ',', i.size()));
         }
 
         list<string> bySpace;
         //cout << "bySpace: " << endl;
         for (auto const& i : byComma) {
             //cout << i << endl;
-            bySpace.splice(bySpace.end(), split(i, ' '));
+            bySpace.splice(bySpace.end(), split(i, ' ', i.size()));
         }
 
         //cout << "printing bySpace: " << endl;

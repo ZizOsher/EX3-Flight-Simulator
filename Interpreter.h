@@ -5,6 +5,7 @@
 #include "Expressions.h"
 #include <list>
 #include <stack>
+#include "SymbolTable.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ class Interpreter {
     map<string, int> precedenceMap;
     string functions[2] = {"(+(", "(-("};
     map<string, double> setVarsMap;
+    SymbolTable& SymTable = SymbolTable::getInstance();
 public:
     Interpreter() {
         precedenceMap["+"] = 2;
@@ -39,5 +41,7 @@ public:
     void operator= (Interpreter const&) = delete;
     static Interpreter& getInstance();
     virtual ~Interpreter();
+
+    static string removeAllWhiteSpaces(string input);
 };
 #endif //UNTITLED1_INTERPRETER_H

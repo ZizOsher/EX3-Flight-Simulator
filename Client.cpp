@@ -1,4 +1,3 @@
-// Client side C/C++ program to demonstrate Socket programming
 #include <sys/socket.h>
 #include <iostream>
 #include <unistd.h>
@@ -6,6 +5,9 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include "Client.h"
+#include "Command.h"
+#include "Interpreter.h"
+#include "math.h"
 
 using namespace std;
 
@@ -23,9 +25,10 @@ int Client::openClient(itr index) {
     string ipAdress = *index;
 
     const char* ip = ipAdress.c_str();
-    cout << *index << endl;
+    //cout << *index << endl;
     index++;
-    int valPort = stoi(*index);
+    Interpreter& i = Interpreter::getInstance();
+    int valPort = round(i.interpret(*index)->calculate());
 
     //We need to create a sockaddr obj to hold address of server
     sockaddr_in address; //in means IP4
@@ -42,13 +45,13 @@ int Client::openClient(itr index) {
         return -2;
     } else {
         std::cout << "Client is now connected to server" << std::endl;
-        sendMessage(client_socket, "set controls/flight/rudder -1");
+        //sendMessage(client_socket, "set controls/flight/rudder -1");
     }
     close(client_socket);
     return 0;
 }
 
-void Client::sendMessage(int client_socket, string message) {
+void Client::sendMessage(int client_socket, string message) { //
 
     //if here we made a connection
 

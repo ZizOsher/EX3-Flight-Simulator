@@ -132,5 +132,64 @@ class Mul : public BinaryOperator {
 
 };
 
+/////////////////////////////////////////////////// add classes to the current project
+
+
+class Equal : public BinaryOperator{
+public:
+    Equall(Expression* left, Expression* right): BinaryOperator(left, right){}
+    double calculate();
+    virtual  ~Equal();
+};
+
+class NotEqual: public BinaryOperator{
+public:
+    NotEqual(Expression* left, Expression* right):BinaryOperator(left,right){}
+    double calculate();
+    virtual ~NotEqual();
+};
+
+class NotGraterThan: public BinaryOperator{
+public:
+    NotGraterThan(Expression* left, Expression* right):BinaryOperator(left, right){}
+    double calculate();
+    virtual  ~NotGraterThan();
+};
+
+class NotLessThan: public BinaryOperator{
+public:
+    NotLessThan(Expression* left, Expression *right):BinaryOperator(left, right){}
+    double calculate();
+    virtual ~NotLessThan();
+};
+class Greater: public BinaryOperator{
+public:
+    Greater(Expression* left, Expression* right):BinaryOperator(left, right){}
+    double calculate();
+    virtual ~Greater();
+};
+
+class Lesser:public BinaryOperator{
+public:
+    Lesser(Expression* left, Expression* right):BinaryOperator(left, right){}
+    double calculate();
+    virtual ~Lesser();
+};
+
+/*
+class And:public BinaryOperator{
+public:
+    And(Expression* left, Expression* right):BinaryOperator(left, right){}
+    double calculate();
+    virtual ~And();
+};
+
+class Or:public BinaryOperator{
+public:
+    Or(Expression* left, Expression* right):BinaryOperator(left, right){}
+    double calculate();
+    virtual ~Or();
+};
+*/
 
 #endif //UNTITLED_EX1_H

@@ -122,3 +122,91 @@ Mul::~Mul() {
     delete this->left;
     delete this->right;
 }
+
+/////////////////////////////////////////////////////////// expression for this project
+
+
+// equal
+
+double Equal:: calculate() {
+    if(this->left->calculate() == this->right->calculate()){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+Equal::~Equal(){
+    delete this->left;
+    delete this->right;
+}
+
+// not equal
+double NotEqual::calculate() {
+    if(this ->left->calculate() != this->right->calculate()){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+NotEqual:: ~NotEqual(){
+    delete this->left;
+    delete this->right;
+}
+
+// not greater than
+double NotGraterThan::calculate() {
+    if(this->left->calculate() <= this->right->calculate()){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+NotGraterThan::~NotGraterThan() {
+    delete this->right;
+    delete this->left;
+}
+
+// not less than
+double NotLessThan:: calculate() {
+    if(this->left->calculate() >= this->right->calculate()){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+NotLessThan::~NotLessThan() {
+    delete this->left;
+    delete this->right;
+}
+
+// greater
+double Greater::calculate() {
+    if(this->left->calculate() > this->right->calculate()){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+Greater:: ~Greater() {
+    delete this->right;
+    delete this->left;
+}
+
+// lesser
+double Lesser::calculate() {
+    if(this->left->calculate() < this->right->calculate()){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+Lesser::~Lesser() {
+    delete this->right;
+    delete this->left;
+}
+

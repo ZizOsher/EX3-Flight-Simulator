@@ -156,7 +156,7 @@ NotEqual:: ~NotEqual(){
 }
 
 // not greater than
-double NotGraterThan::calculate() {
+double NotGreaterThan::calculate() {
     if(this->left->calculate() <= this->right->calculate()){
         return 1;
     }else{
@@ -164,7 +164,7 @@ double NotGraterThan::calculate() {
     }
 }
 
-NotGraterThan::~NotGraterThan() {
+NotGreaterThan::~NotGreaterThan() {
     delete this->right;
     delete this->left;
 }
@@ -209,4 +209,3 @@ Lesser::~Lesser() {
     delete this->right;
     delete this->left;
 }
-

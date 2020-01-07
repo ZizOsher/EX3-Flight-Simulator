@@ -137,39 +137,39 @@ class Mul : public BinaryOperator {
 
 class Equal : public BinaryOperator{
 public:
-    Equall(Expression* left, Expression* right): BinaryOperator(left, right){}
+    Equal(Expression* left, Expression* right): BinaryOperator(left, right){}
     double calculate();
     virtual  ~Equal();
 };
 
-class NotEqual: public BinaryOperator{
+class NotEqual : public BinaryOperator{
 public:
     NotEqual(Expression* left, Expression* right):BinaryOperator(left,right){}
     double calculate();
     virtual ~NotEqual();
 };
 
-class NotGraterThan: public BinaryOperator{
+class NotGreaterThan : public BinaryOperator{
 public:
-    NotGraterThan(Expression* left, Expression* right):BinaryOperator(left, right){}
+    NotGreaterThan(Expression* left, Expression* right):BinaryOperator(left, right){}
     double calculate();
-    virtual  ~NotGraterThan();
+    virtual ~NotGreaterThan();
 };
 
-class NotLessThan: public BinaryOperator{
+class NotLessThan : public BinaryOperator{
 public:
     NotLessThan(Expression* left, Expression *right):BinaryOperator(left, right){}
     double calculate();
     virtual ~NotLessThan();
 };
-class Greater: public BinaryOperator{
+class Greater : public BinaryOperator{
 public:
     Greater(Expression* left, Expression* right):BinaryOperator(left, right){}
     double calculate();
     virtual ~Greater();
 };
 
-class Lesser:public BinaryOperator{
+class Lesser : public BinaryOperator{
 public:
     Lesser(Expression* left, Expression* right):BinaryOperator(left, right){}
     double calculate();

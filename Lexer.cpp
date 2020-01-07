@@ -47,7 +47,7 @@ list<string> splitByParen(string input) {
     if (input == ")") {
         return res;
     }
-    if (input[1] == '"' || !isknownCommand(input)) {
+    if (input[0] == '"' || !isknownCommand(input)) {
         if ((input.find('(') == string::npos) && (input.find(')') == input.size()-1)) {
             res.push_back(input.substr(0, input.size()-1));
         } else {
@@ -148,7 +148,7 @@ vector<string> Lexer::lexer(string filename) {
         //cout << "bySpace: " << endl;
         for (auto const& i : byComma) {
             //cout << i << endl;
-            bySpace.splice(bySpace.end(), split(i, ' ', i.size()));
+            bySpace.splice(bySpace.end(), split(i, ' ', 2));
         }
 
         //cout << "printing bySpace: " << endl;

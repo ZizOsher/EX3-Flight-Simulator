@@ -17,21 +17,30 @@ list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
     }
     string token;
     size_t pos = 0;
-    input = input + delimiter;
+    input = input; // + delimiter;
     unsigned int delimiterOffset = 1;
     size_t counter = 0;
+    //cout << "input is: " << input << " and the delimiter is: " << delimiter << endl;
     while ((pos = input.find(delimiter)) != string::npos && counter < splitLimit) {
         token = input.substr(0, pos);
+        //cout << token << endl;
         if (token == "var") {
             splitLimit = 3;
         }
         if (!token.empty()) {
+            /*
+            if (delimiter == ' ') {
+                cout << token << endl;
+            }
+             */
             res.push_back(token);
         }
         input.erase(0, pos + delimiterOffset);
         counter++;
     }
-    if (!input.empty() || res.empty()) {
+    if (res.empty()) {
+        res.push_back(input);
+    } else if (!input.empty()) {
         res.push_back(input);
     }
     return res;
@@ -39,12 +48,16 @@ list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
 
 bool isknownCommand(string input) {
     return CommandMap::getInstance().getCommand(Lexer::split(input, ' ', 2).front()) != nullptr
-        || CommandMap::getInstance().getCommand(Lexer::split(input, '(', 2).front()) != nullptr;
+    || CommandMap::getInstance().getCommand(Lexer::split(input, '(', 2).front()) != nullptr;
 }
 
 list<string> splitByParen(string input) {
     list<string> res;
     if (input == ")") {
+        return res;
+    }
+    if (input.find('(') == string::npos && input.find(')') == string::npos) {
+        res.push_back(input);
         return res;
     }
     if (input[0] == '"' || !isknownCommand(input)) {
@@ -67,37 +80,15 @@ list<string> splitByParen(string input) {
         res.push_back(input);
     }
     return res;
-/*
-    list<string> res;
-    if (input[1] == '"') {
-        res.push_back(input);
-        return res;
-    }
-    string token;
-    size_t pos = 0;
-    input = input + '(';
-    unsigned int delimiterOffset = 1;
-    while ((pos = input.find('(')) != string::npos || (pos = input.find(')')) != string::npos) {
-        if (input[pos-1] == ')') {
-            token = input.substr(0, pos - 1);
-        } else {
-            token = input.substr(0, pos);
-        }
-        if (!token.empty()) {
-            res.push_back(token);
-        }
-        input.erase(0, pos + delimiterOffset);
-    }
-    if (res.empty() && !input.empty()) {
-        res.push_back(input);
-    }
-    return res;
-    */
 }
 
 list<string> splitByQuotes(string input) {
     list<string> res;
     string token;
+    if (input.find('"') == string::npos) {
+        res.push_back(input);
+        return res;
+    }
     size_t pos = 0;
     bool inQuotes = false;
     input = input + '"';
@@ -132,6 +123,8 @@ vector<string> Lexer::lexer(string filename) {
 
         list<string> byParen;
         //cout << "byQuotes: " << endl;
+        //cout << byQuotes.size() << endl;
+
         for (auto const& i : byQuotes) {
             //cout << i << endl;
             byParen.splice(byParen.end(), splitByParen(i));
@@ -159,12 +152,48 @@ vector<string> Lexer::lexer(string filename) {
         commands.emplace_back("\n");
     }
     lexerInput.close();
-    // Print for testing: (Lexer includes newline characters.
+    /* Print for testing: (Lexer includes newline characters.
     for (unsigned int i = 0; i < commands.size(); i++) {
         cout << commands[i] << ",";
         /*if (commands[i] != "\n") {
-        }*/
+        }
     }
-    // ends of test print
+    ends of test print */
     return commands;
 }
+
+
+
+
+
+
+
+
+
+
+/*
+    list<string> res;
+    if (input[1] == '"') {
+        res.push_back(input);
+        return res;
+    }
+    string token;
+    size_t pos = 0;
+    input = input + '(';
+    unsigned int delimiterOffset = 1;
+    while ((pos = input.find('(')) != string::npos || (pos = input.find(')')) != string::npos) {
+        if (input[pos-1] == ')') {
+            token = input.substr(0, pos - 1);
+        } else {
+            token = input.substr(0, pos);
+        }
+        if (!token.empty()) {
+            res.push_back(token);
+        }
+        input.erase(0, pos + delimiterOffset);
+    }
+    if (res.empty() && !input.empty()) {
+        res.push_back(input);
+    }
+    return res;
+    */

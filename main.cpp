@@ -22,6 +22,8 @@ int main(int argc, char const *argv[]) {
 
     vector<string> vectorofStrings;
     vectorofStrings = Lexer::lexer("fly.txt");
+    //vectorofStrings = Lexer::lexer("test.txt");
+
     Parser::parse(vectorofStrings);
 }
 

@@ -16,6 +16,7 @@ class CommandMap {
             addCommand("var", new DefineVarCommand());
             addCommand("Print", new PrintCommand());
             addCommand("Sleep", new SleepCommand());
+            addCommand("variableAssignment", new VarAssignCommand());
         }
         //using pointer to connect between string and command in hash function
         // because int as a pointer has a hash function

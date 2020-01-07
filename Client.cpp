@@ -7,15 +7,15 @@
 #include "Client.h"
 #include "Command.h"
 #include "Interpreter.h"
-#include "math.h"
+#include <cmath>
 
 using namespace std;
-
+int client_socket;
 #define PORT 5402
 
 int Client::openClient(itr index) {
     //create socket
-    int client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
         //error
         std::cerr << "Could not create a socket" << std::endl;
@@ -51,19 +51,29 @@ int Client::openClient(itr index) {
     return 0;
 }
 
+/*
 void Client::sendMessage(int client_socket, string message) { //
-
     //if here we made a connection
-
     //string message = "set " + path+ " " + to_string(value) + "\r\n";
     message = "set controls/flight/rudder -1\r\n";
 
     // Send message to the server
    int is_sent = write(client_socket, message.c_str(), message.length());
-
     if (is_sent == -1) {
         std::cout << "Error sending message" << std::endl;
     } else {
-        std::cout << "Hello message sent to server" << std::endl;
+        std::cout << "'" << message << "'" << " sent to server" << std::endl;
+    }
+}
+*/
+
+void Client::sendMessageToClient(string message) {
+    message = message + "\r\n";
+    // Send message to the server
+    int is_sent = write(client_socket, message.c_str(), message.length());
+    if (is_sent == -1) {
+        std::cout << "Error sending message" << std::endl;
+    } else {
+        std::cout << "'" << message << "'" << " sent to server" << std::endl;
     }
 }

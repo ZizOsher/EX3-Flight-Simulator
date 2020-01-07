@@ -108,16 +108,27 @@ list<string> splitByQuotes(string input) {
     return res;
 }
 
+list<string> splitByRightCurlyBracket(string input) {
+    list<string> res;
+    if (input.find('{') != string::npos) {
+        size_t pos = input.find('{');
+        string token1 = input.substr(0, pos);
+        string token2 = input.substr(pos, 1);
+        res.push_back(token1);
+        res.push_back(token2);
+    } else {
+        res.push_back(input);
+    }
+    return res;
+}
+
 vector<string> Lexer::lexer(string filename) {
     ifstream lexerInput;
     lexerInput.open(filename);
     string line;
     vector<string> commands;
-    /*unsigned int m;
-    m = 0;*/
 
     while (getline(lexerInput, line)) {
-        //m++;
         //cout << line << endl;
         list<string> byQuotes = splitByQuotes(line);
 
@@ -144,21 +155,29 @@ vector<string> Lexer::lexer(string filename) {
             bySpace.splice(bySpace.end(), split(i, ' ', 2));
         }
 
-        //cout << "printing bySpace: " << endl;
-        while (!bySpace.empty()) {
-            commands.push_back(bySpace.front());
-            bySpace.pop_front();
+        list<string> byRightCurlyBracket;
+        //cout << "byRightCurlyBracket: " << endl;
+        for (auto const& i : bySpace) {
+            //cout << i << endl;
+            byRightCurlyBracket.splice(byRightCurlyBracket.end(), splitByRightCurlyBracket(i));
         }
+
+        //cout << "printing bySpace: " << endl;
+        while (!byRightCurlyBracket.empty()) {
+            commands.push_back(byRightCurlyBracket.front());
+            byRightCurlyBracket.pop_front();
+        }
+
         commands.emplace_back("\n");
     }
     lexerInput.close();
-    /* Print for testing: (Lexer includes newline characters.
+/*
+    //Print for testing: (Lexer includes newline characters.
     for (unsigned int i = 0; i < commands.size(); i++) {
         cout << commands[i] << ",";
-        /*if (commands[i] != "\n") {
-        }
     }
-    ends of test print */
+    //end of test print
+    */
     return commands;
 }
 

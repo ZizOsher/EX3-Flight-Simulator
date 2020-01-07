@@ -49,6 +49,14 @@ void Variable::setValue(double d) {
     this->value = d;
 }
 
+bool Variable::isBoundOut() {
+    return this->simBindOut;
+}
+
+string Variable::getSim() {
+    return this->sim;
+}
+
 /*
 Variable &Variable::operator=(double d) {
     this->value = d;
@@ -126,8 +134,6 @@ Mul::~Mul() {
 /////////////////////////////////////////////////////////// expression for this project
 
 
-// equal
-
 double Equal:: calculate() {
     if(this->left->calculate() == this->right->calculate()){
         return 1;
@@ -184,7 +190,7 @@ NotLessThan::~NotLessThan() {
 }
 
 // greater
-double Greater::calculate() {
+double GreaterThan::calculate() {
     if(this->left->calculate() > this->right->calculate()){
         return 1;
     }else{
@@ -192,20 +198,20 @@ double Greater::calculate() {
     }
 }
 
-Greater:: ~Greater() {
+GreaterThan:: ~GreaterThan() {
     delete this->right;
     delete this->left;
 }
 
 // lesser
-double Lesser::calculate() {
+double LessThan::calculate() {
     if(this->left->calculate() < this->right->calculate()){
         return 1;
     }else{
         return 0;
     }
 }
-Lesser::~Lesser() {
+LessThan::~LessThan() {
     delete this->right;
     delete this->left;
 }

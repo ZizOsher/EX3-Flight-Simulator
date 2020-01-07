@@ -59,6 +59,8 @@ class Variable : public Expression {
         Variable& operator++(int i);
         Variable& operator--(int i);
         void setValue(double d);
+        string getSim();
+        bool isBoundOut();
         //virtual ~Variable() {};
 };
 
@@ -162,18 +164,18 @@ public:
     double calculate();
     virtual ~NotLessThan();
 };
-class Greater : public BinaryOperator{
+class GreaterThan : public BinaryOperator{
 public:
-    Greater(Expression* left, Expression* right):BinaryOperator(left, right){}
+    GreaterThan(Expression* left, Expression* right): BinaryOperator(left, right){}
     double calculate();
-    virtual ~Greater();
+    virtual ~GreaterThan();
 };
 
-class Lesser : public BinaryOperator{
+class LessThan : public BinaryOperator{
 public:
-    Lesser(Expression* left, Expression* right):BinaryOperator(left, right){}
+    LessThan(Expression* left, Expression* right): BinaryOperator(left, right){}
     double calculate();
-    virtual ~Lesser();
+    virtual ~LessThan();
 };
 
 /*

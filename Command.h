@@ -9,7 +9,7 @@
 
 using namespace std;
 
-//extern int client_socket;
+extern int client_socket;
 
 typedef vector<string>::iterator itr;
 class Command {

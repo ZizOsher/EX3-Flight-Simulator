@@ -6,10 +6,26 @@
 using namespace std;
 
 /**
- * while we haven't reached a newline character, keep concatenating itr1 to one string which will be
- * sent to interpretation. If the item reached is a variable it is passed to the func setVaraibles (taking the
- * variable's binding into account).
- * Finally, the variable will be assigned the value calculated by the interpreter.
+ * Auxiliary function that matches the correct operator to a variable based on the string oper.
+ *
+ * @param v
+ * @param val
+ * @param oper
+*/
+void matchOperator(Variable* v, double val, string oper) {
+    if (oper == "=") {
+        v->setValue(val);
+    } else if (oper == "+=") {
+        v->setValue(v->calculate() + val);
+    } else if (oper == "-=") {
+        v->setValue(v->calculate() - val);
+    }
+}
+
+/**
+ * This function interprets and calculates the value of and expression to be assigned to the variable using the
+ * interpreter. The variable will be assigned the value calculated by the interpreter , and if the variable is
+ * outwards bound, a "set" command is sent to the simulator.
  * @param itr1
  * @return cnt
  */
@@ -20,24 +36,19 @@ int VarAssignCommand::execute(itr itr1) {
     itr1++;
     string opr = *itr1;
     if (SymTable.isInMap(subjectName)) {
+        Variable* subjectVariable = SymTable.getVariable(subjectName);
         itr1++;
         Interpreter& i = Interpreter::getInstance();
-        string res;
-        while (*itr1 != "\n") {
-            if (SymTable.getVariable(*itr1)) {
-                string setVarStr;
-                setVarStr = *itr1 + "=" + to_string(SymTable.getVariable(*itr1)->calculate());
-            }
-
-            //TODO: while we haven't reached a newline character, keep concatenating itr1 to one string which will be
-            // sent to interpretation. If the item reached is a variable it is passed to the func setVariables (take
-            // binding into account).
-            // Finally, the variable will be assigned the calculated value.
-
+        double valToAssign;
+        valToAssign = i.interpret(*itr1)->calculate();
+        if (subjectVariable->isBoundOut()) {
+            string message = "set " + subjectVariable->getSim() + " " + to_string(valToAssign);
+            Client::sendMessageToClient(message);
         }
+        matchOperator(subjectVariable, valToAssign, opr);
     } else {
         string message = "The variable '" + subjectName + "' is not defined.";
         throw message;
     }
-    return cnt;
+    return 3;
 }

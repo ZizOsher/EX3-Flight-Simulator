@@ -9,8 +9,8 @@ class Client {
 
 public:
     int openClient(itr index);
-    void sendMessage(int client_socket, string message); //int client_socket,
-    //void sendMessage(string message);
+    //void sendMessage(int client_socket, string message); //int client_socket,
+    static void sendMessageToClient(string message);
 };
 
 

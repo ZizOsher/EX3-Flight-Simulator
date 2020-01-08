@@ -167,13 +167,24 @@ vector<string> Lexer::lexer(string filename) {
 
         //cout << "printing bySpace: " << endl;
         while (!byRightCurlyBracket.empty()) {
-            commands.push_back(byRightCurlyBracket.front());
+            string comm;
+            comm = byRightCurlyBracket.front();
+            if (comm.find('\t') != string::npos) {
+                int pos = comm.find_last_of('\t');
+                comm = comm.substr(pos+1, comm.size() - (pos+1));
+            }
+            commands.push_back(comm);
             byRightCurlyBracket.pop_front();
         }
-
         commands.emplace_back("\n");
     }
     lexerInput.close();
+    for (string s : commands) {
+        if (s.find('\t') != string::npos) { //TODO: This needs to be earlier. after quotes.
+            int pos = s.find_last_of('\t');
+            s = s.substr(pos+1, s.size() - (pos+1));
+        }
+    }
 /*
     //Print for testing: (Lexer includes newline characters.
     for (unsigned int i = 0; i < commands.size(); i++) {

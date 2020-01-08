@@ -3,10 +3,6 @@
 #include "SymbolTable.h"
 #include "CommandMap.h"
 
-bool parseCondition() {
-    return true;
-}
-
 int IfCommand::execute(itr itr1) {
     int ret = 0;
     itr1++;
@@ -16,7 +12,7 @@ int IfCommand::execute(itr itr1) {
         ret++; // To account for \n
     }
     itr1++;
-    if (parseCondition()) {
+    if (Interpreter::getInstance().interpretCondition(*itr1)) {
         int executed;
         for (Command* c : this->innerCommands) {
             executed += 1;

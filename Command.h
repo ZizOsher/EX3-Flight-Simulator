@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include "Server.h"
+#include <list>
 
 using namespace std;
 
@@ -54,6 +55,22 @@ class SleepCommand: public Command {
 public:
     int execute(itr itr1) override;
     void sleepFor(int milisceondsSleep);
+};
+
+class ConditionParser: public command {
+private:
+    list<Command*> innerCommands;
+public:
+    //void addToScope(Command*);
+    virtual int execute(itr itr1) = 0;
+};
+
+class IfCommand: public ConditionParser {
+    int execute(itr itr1) override;
+};
+
+class LoopCommand: public ConditionParser {
+    int execute(itr itr1) override;
 };
 
 #endif //UNTITLED1_COMMAND_H

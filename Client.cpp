@@ -47,7 +47,7 @@ int Client::openClient(itr index) {
         std::cout << "Client is now connected to server" << std::endl;
         //sendMessage(client_socket, "set controls/flight/rudder -1");
     }
-    close(client_socket);
+    //close(client_socket);
     return 0;
 }
 
@@ -68,9 +68,11 @@ void Client::sendMessage(int client_socket, string message) { //
 */
 
 void Client::sendMessageToClient(string message) {
-    message = message + "\r\n";
+    //message = message + "\r\n";
     // Send message to the server
+    cout << "I hope the someone gets my" << endl;
     int is_sent = write(client_socket, message.c_str(), message.length());
+    cout << "Sabich shel Ovad" << endl;
     if (is_sent == -1) {
         std::cout << "Error sending message" << std::endl;
     } else {

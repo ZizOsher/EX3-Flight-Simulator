@@ -21,11 +21,14 @@ int Client::openClient(itr index) {
         std::cerr << "Could not create a socket" << std::endl;
         return -1;
     }
-    index++;
-    string ipAdress = *index;
 
-    const char* ip = ipAdress.c_str();
-    //cout << *index << endl;
+    index++;
+    string ipAddress = *index;
+    // Removing '"' from both ends of ip
+    size_t pos = ipAddress.size() - 1;
+    ipAddress = ipAddress.substr(1, pos - 1);
+    const char* ip = ipAddress.c_str();
+
     index++;
     Interpreter& i = Interpreter::getInstance();
     int valPort = round(i.interpret(*index)->calculate());
@@ -39,13 +42,13 @@ int Client::openClient(itr index) {
     // to a number that the network understands.
 
     // Requesting a connection with the server on local host with port 8081
+    cout << client_socket << endl;
     int is_connect = connect(client_socket, (struct sockaddr *) &address, sizeof(address));
     if (is_connect == -1) {
         std::cerr << "Could not connect to host server" << std::endl;
         return -2;
     } else {
         std::cout << "Client is now connected to server" << std::endl;
-        //sendMessage(client_socket, "set controls/flight/rudder -1");
     }
     //close(client_socket);
     return 0;

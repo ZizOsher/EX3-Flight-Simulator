@@ -96,6 +96,9 @@ list<string> splitByQuotes(string input) {
     while ((pos = input.find('"')) != string::npos && (pos = input.find('"')) != 0) {
         token = input.substr(0, pos);
         if (inQuotes) {
+            if (token[0] == '/') {
+                token = token.substr(1);
+            }
             token = '"' + token + '"';
         }
         if (!token.empty()) {
@@ -177,42 +180,6 @@ vector<string> Lexer::lexer(string filename) {
         cout << commands[i] << ",";
     }
     //end of test print
-    */
+*/
     return commands;
 }
-
-
-
-
-
-
-
-
-
-
-/*
-    list<string> res;
-    if (input[1] == '"') {
-        res.push_back(input);
-        return res;
-    }
-    string token;
-    size_t pos = 0;
-    input = input + '(';
-    unsigned int delimiterOffset = 1;
-    while ((pos = input.find('(')) != string::npos || (pos = input.find(')')) != string::npos) {
-        if (input[pos-1] == ')') {
-            token = input.substr(0, pos - 1);
-        } else {
-            token = input.substr(0, pos);
-        }
-        if (!token.empty()) {
-            res.push_back(token);
-        }
-        input.erase(0, pos + delimiterOffset);
-    }
-    if (res.empty() && !input.empty()) {
-        res.push_back(input);
-    }
-    return res;
-    */

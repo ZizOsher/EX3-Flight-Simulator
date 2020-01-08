@@ -21,9 +21,9 @@ public:
     void operator= (SymbolTable const&) = delete;
 
     static SymbolTable& getInstance();
-    Variable* getVariable(const string& symbol);
-    bool isInMap(const string& symbol);
-    void addVariable(const string& symbol, Variable* var);
+    Variable* getVariable(string symbol);
+    bool isInMap(string symbol);
+    void addVariable(string symbol, Variable* var);
 };
 
 #endif //UNTITLED1_SYMBOLTABLE_H

@@ -3,6 +3,7 @@
 #include "SymbolTable.h"
 #include "Interpreter.h"
 #include "Client.h"
+#include <iostream>
 using namespace std;
 
 /**
@@ -30,19 +31,23 @@ void matchOperator(Variable* v, double val, string oper) {
  * @return cnt
  */
 int VarAssignCommand::execute(itr itr1) {
-    unsigned int cnt = 0;
+    cout << "got to VarAssignCommand hooray" << endl;
     SymbolTable& SymTable = SymbolTable::getInstance();
     string subjectName = *itr1;
     itr1++;
     string opr = *itr1;
+    cout << "itr1 = " << *itr1 << endl;
     if (SymTable.isInMap(subjectName)) {
         Variable* subjectVariable = SymTable.getVariable(subjectName);
         itr1++;
         Interpreter& i = Interpreter::getInstance();
         double valToAssign;
         valToAssign = i.interpret(*itr1)->calculate();
+        cout << valToAssign << endl;
         if (subjectVariable->isBoundOut()) {
-            string message = "set " + subjectVariable->getSim() + " " + to_string(valToAssign);
+            cout << "sending out an SOS" << endl;
+            string message = "set " + subjectVariable->getSim() + " " + to_string(valToAssign) + "\r\n";
+            cout << message << endl;
             Client::sendMessageToClient(message);
         }
         matchOperator(subjectVariable, valToAssign, opr);

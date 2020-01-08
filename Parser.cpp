@@ -17,6 +17,7 @@ void Parser::parse(vector<string> LexerResult) {
             } else {
                 symbol = *index;
             }
+            cout << *index << endl;
             // itr is iterator for the string and *index is a string itself
             Command *command = CommandMap::getInstance().getCommand(symbol);
             // if the command exists

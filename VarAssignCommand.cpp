@@ -36,18 +36,18 @@ int VarAssignCommand::execute(itr itr1) {
     string subjectName = *itr1;
     itr1++;
     string opr = *itr1;
-    cout << "itr1 = " << *itr1 << endl;
+    //cout << "itr1 = " << *itr1 << endl;
     if (SymTable.isInMap(subjectName)) {
         Variable* subjectVariable = SymTable.getVariable(subjectName);
         itr1++;
         Interpreter& i = Interpreter::getInstance();
         double valToAssign;
         valToAssign = i.interpret(*itr1)->calculate();
-        cout << valToAssign << endl;
+        //cout << valToAssign << endl;
         if (subjectVariable->isBoundOut()) {
-            cout << "sending out an SOS" << endl;
+            //cout << "sending out an SOS" << endl;
             string message = "set " + subjectVariable->getSim() + " " + to_string(valToAssign) + "\r\n";
-            cout << message << endl;
+            //cout << message << endl;
             Client::sendMessageToClient(message);
         }
         matchOperator(subjectVariable, valToAssign, opr);

@@ -16,7 +16,6 @@ int OpenServerCommand::execute(itr itr1) {
     //send the function to thread
     itr1++;
     MyThread = new thread(openServerToThread,itr1);
-
     return 2;
 }
 
@@ -25,3 +24,5 @@ void OpenServerCommand::joinThread() {
         MyThread->join();
     }
 }
+
+

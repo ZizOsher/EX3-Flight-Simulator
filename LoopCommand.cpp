@@ -3,11 +3,7 @@
 #include "SymbolTable.h"
 #include "CommandMap.h"
 
-bool parseCondition() {
-    return true;
-}
-
-int IfCommand::execute(itr itr1) {
+int LoopCommand::execute(itr itr1) {
     int ret = 0;
     itr1++;
     buildScope(itr1);
@@ -16,8 +12,8 @@ int IfCommand::execute(itr itr1) {
         ret++; // To account for \n
     }
     itr1++;
-    if (parseCondition()) {
-        int executed;
+    while (false) {
+        int executed = 0;
         for (Command* c : this->innerCommands) {
             executed += 1;
             executed += c->execute(itr1 + executed);

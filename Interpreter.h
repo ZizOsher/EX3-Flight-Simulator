@@ -28,12 +28,12 @@ public:
         precedenceMap["(-("] = 4;
     }
     Expression* interpret(const string& inputToParse);
+    bool interpretCondition(string str);
     Expression* ShuntingYard(const string& inputToParse);
     string findNumInStr(string s, int index);
     string findVarInStr(string s, int index);
     bool isFunc(string f);
     void setVariables(const string &s);
-    //void handleOperatorFromStack(stack<Expression*> res, const string &item);
     bool isaNumber(const string &str);
     //bool isaVariable(const string &str);
     Interpreter(Interpreter const&) = delete;

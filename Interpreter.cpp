@@ -308,3 +308,80 @@ string Interpreter::findVarInStr(const string s, int index) {
     }
     return result;
 }
+
+
+bool resultInBool(double result){
+    if(result== 1){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool Interpreter::interpretCondition(string str) {
+    Expression *expressionLeft;
+    Expression *expressionRight;
+    Expression *expression;
+    double result;
+    bool boolResult;
+
+    string operatorsArray[6] = {"<", ">","<=", ">=", "==", "!="};
+    // stringstream class check1
+    string delimiter;
+    int pos;
+    int len;
+    for (string op : operatorsArray) {
+        if (str.find(op) != string::npos) {
+            delimiter = op;
+            pos = str.find(op);
+            len = op.size();
+            break;
+        }
+    }
+    if (delimiter == "") {
+        const char* e = "Illegal argument in conditional";
+        throw e;
+    }
+
+    string tokens[3];
+    tokens[0] = str.substr(0,pos);
+    tokens[1] = str.substr(pos, len);
+    tokens[2] = str.substr(pos + len, str.size() - (pos + len));
+
+    string operand = tokens[1];
+
+    // convert the string into expressions right and left
+    expressionLeft = interpret(tokens[0]);
+    expressionRight = interpret(tokens[2]);
+    if(operand == "<") {
+        expression = new LessThan(expressionLeft,expressionRight);
+        result = expression->calculate();
+        boolResult = resultInBool(result);
+        return boolResult;
+    } else if(operand == "<=") {
+        expression = new NotGreaterThan(expressionLeft,expressionRight);
+        result = expression->calculate();
+        boolResult = resultInBool(result);
+        return boolResult;
+    }else if(operand == "==") {
+        expression = new Equal(expressionLeft,expressionRight);
+        result = expression->calculate();
+        boolResult = resultInBool(result);
+        return boolResult;
+    } else if(operand == "!=") {
+        expression = new NotEqual(expressionLeft,expressionRight);
+        result = expression->calculate();
+        boolResult = resultInBool(result);
+        return boolResult;
+    } else if(operand == ">") {
+        expression = new GreaterThan(expressionLeft,expressionRight);
+        result = expression->calculate();
+        boolResult = resultInBool(result);
+        return boolResult;
+    } else if(operand == ">=") {
+        expression = new NotLessThan(expressionLeft,expressionRight);
+        result = expression->calculate();
+        boolResult = resultInBool(result);
+        return boolResult;
+    }
+}

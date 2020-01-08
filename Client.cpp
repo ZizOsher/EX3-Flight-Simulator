@@ -73,9 +73,9 @@ void Client::sendMessage(int client_socket, string message) { //
 void Client::sendMessageToClient(string message) {
     //message = message + "\r\n";
     // Send message to the server
-    cout << "I hope the someone gets my" << endl;
+    //cout << "I hope the someone gets my" << endl;
     int is_sent = write(client_socket, message.c_str(), message.length());
-    cout << "Sabich shel Ovad" << endl;
+    //cout << "Sabich shel Ovad" << endl;
     if (is_sent == -1) {
         std::cout << "Error sending message" << std::endl;
     } else {

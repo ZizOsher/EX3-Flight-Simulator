@@ -7,6 +7,7 @@
 #include <list>
 #include <stdexcept>
 #include <vector>
+#include "SimIncomingInfo.h"
 
 Interpreter::~Interpreter() {}
 
@@ -34,6 +35,7 @@ Expression* Interpreter::interpret(const string& inputToParse) {
 }
 
 Expression* Interpreter::ShuntingYard(const string& inputToParse) {
+    SimIncomingInfo& simVals = SimIncomingInfo::getInstance();
     stack<string> operatorStack;
     queue<string> outputQueue;
     int index = 0;
@@ -165,6 +167,9 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
                 resStack.push(ex);
                  */
                 Variable *ex = SymTable.getVariable(item);
+                if (!ex->isBoundOut()) {
+                    ex->setValue(simVals.getValue(ex->getSim()));
+                }
                 resStack.push(ex);
             } catch (const char &e) {
                 string message = "Variable: ";

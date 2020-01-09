@@ -19,7 +19,6 @@ int OpenServerCommand::execute(itr itr1) {
     //send the function to thread
     itr1++;
     MyThread = new thread(openServerToThread,itr1);
-    cout << this->getSteps() << endl;
     return this->getSteps();
 }
 

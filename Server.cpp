@@ -10,9 +10,11 @@
 #include "SimIncomingInfo.h"
 #include "Interpreter.h"
 #include <math.h>
+#include "Command.h"
 
 #define PORT 5400
 using namespace std;
+int server_socket;
 
 int Server::openServer(itr itr1) {
     //create socket
@@ -71,7 +73,8 @@ void Server:: readFromClient(){
     // first get into the while, until reading ending reading from the simulator
     int valread = 0;
     // as long there is information from the simulator
-    while (isConnected == true && valread!= -1){
+    while (isConnected && valread!= -1){
+        cout << "howdy!" << endl;
         // lock the acess to the map
         mutex1.lock();
         int valread = read(Myclient_socket, buffer, size);
@@ -110,45 +113,45 @@ void Server::splitAndPutIntoMap(int size, char* buffer) {
             item = item + buffer[i];
         }
     }
-
+    cout << "ping!!!" << endl;
     SimIncomingInfo& mapForUpdateSimultorInfo = SimIncomingInfo::getInstance();
 
-    mapForUpdateSimultorInfo.addValue("/instrumentation/airspeed-indicator/indicated-speed-kt", arrayOfTokens[0]);
-    mapForUpdateSimultorInfo.addValue("/sim/time/warp", arrayOfTokens[1]);
-    mapForUpdateSimultorInfo.addValue("/controls/switches/magnetos", arrayOfTokens[2]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/heading-indicator/offset-deg", arrayOfTokens[3]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/altimeter/indicated-altitude-ft", arrayOfTokens[4]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/altimeter/pressure-alt-ft", arrayOfTokens[5]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/attitude-indicator/indicated-pitch-deg", arrayOfTokens[6]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/attitude-indicator/indicated-roll-deg", arrayOfTokens[7]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/attitude-indicator/internal-pitch-deg", arrayOfTokens[8]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/attitude-indicator/internal-roll-deg", arrayOfTokens[9]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/encoder/indicated-altitude-ft", arrayOfTokens[10]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/encoder/pressure-alt-ft", arrayOfTokens[11]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/gps/indicated-altitude-ft", arrayOfTokens[12]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/gps/indicated-ground-speed-kt", arrayOfTokens[13]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/gps/indicated-vertical-speed", arrayOfTokens[14]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/heading-indicator/indicated-heading-deg", arrayOfTokens[15]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/magnetic-compass/indicated-heading-deg", arrayOfTokens[16]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/slip-skid-ball/indicated-slip-skid", arrayOfTokens[17]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/turn-indicator/indicated-turn-rate", arrayOfTokens[18]);
-    mapForUpdateSimultorInfo.addValue("/instrumentation/vertical-speed-indicator/indicated-speed-fpm", arrayOfTokens[19]);
-    mapForUpdateSimultorInfo.addValue("/controls/flight/aileron", arrayOfTokens[20]);
-    mapForUpdateSimultorInfo.addValue("/controls/flight/elevator", arrayOfTokens[21]);
-    mapForUpdateSimultorInfo.addValue("/controls/flight/rudder", arrayOfTokens[22]);
-    mapForUpdateSimultorInfo.addValue("/controls/flight/flaps", arrayOfTokens[23]);
-    mapForUpdateSimultorInfo.addValue("/controls/engines/engine/throttle", arrayOfTokens[24]);
-    mapForUpdateSimultorInfo.addValue("/controls/engines/current-engine/throttle", arrayOfTokens[25]);
-    mapForUpdateSimultorInfo.addValue("/controls/switches/master-avionics", arrayOfTokens[26]);
-    mapForUpdateSimultorInfo.addValue("/controls/switches/starter", arrayOfTokens[27]);
-    mapForUpdateSimultorInfo.addValue("/engines/active-engine/auto-start", arrayOfTokens[28]);
-    mapForUpdateSimultorInfo.addValue("/controls/flight/speedbrake", arrayOfTokens[29]);
-    mapForUpdateSimultorInfo.addValue("/sim/model/c172p/brake-parking", arrayOfTokens[30]);
-    mapForUpdateSimultorInfo.addValue("/controls/engines/engine/primer", arrayOfTokens[31]);
-    mapForUpdateSimultorInfo.addValue("/controls/engines/current-engine/mixture", arrayOfTokens[32]);
-    mapForUpdateSimultorInfo.addValue("/controls/switches/master-bat", arrayOfTokens[33]);
-    mapForUpdateSimultorInfo.addValue("/controls/switches/master-alt", arrayOfTokens[34]);
-    mapForUpdateSimultorInfo.addValue("/engines/engine/rpm", arrayOfTokens[35]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/airspeed-indicator/indicated-speed-kt", arrayOfTokens[0]);
+    mapForUpdateSimultorInfo.addValue("sim/time/warp", arrayOfTokens[1]);
+    mapForUpdateSimultorInfo.addValue("controls/switches/magnetos", arrayOfTokens[2]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/offset-deg", arrayOfTokens[3]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/altimeter/indicated-altitude-ft", arrayOfTokens[4]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/altimeter/pressure-alt-ft", arrayOfTokens[5]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/attitude-indicator/indicated-pitch-deg", arrayOfTokens[6]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/attitude-indicator/indicated-roll-deg", arrayOfTokens[7]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/attitude-indicator/internal-pitch-deg", arrayOfTokens[8]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/attitude-indicator/internal-roll-deg", arrayOfTokens[9]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/encoder/indicated-altitude-ft", arrayOfTokens[10]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/encoder/pressure-alt-ft", arrayOfTokens[11]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-altitude-ft", arrayOfTokens[12]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-ground-speed-kt", arrayOfTokens[13]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-vertical-speed", arrayOfTokens[14]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/indicated-heading-deg", arrayOfTokens[15]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/magnetic-compass/indicated-heading-deg", arrayOfTokens[16]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/slip-skid-ball/indicated-slip-skid", arrayOfTokens[17]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/turn-indicator/indicated-turn-rate", arrayOfTokens[18]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/vertical-speed-indicator/indicated-speed-fpm", arrayOfTokens[19]);
+    mapForUpdateSimultorInfo.addValue("controls/flight/aileron", arrayOfTokens[20]);
+    mapForUpdateSimultorInfo.addValue("controls/flight/elevator", arrayOfTokens[21]);
+    mapForUpdateSimultorInfo.addValue("controls/flight/rudder", arrayOfTokens[22]);
+    mapForUpdateSimultorInfo.addValue("controls/flight/flaps", arrayOfTokens[23]);
+    mapForUpdateSimultorInfo.addValue("controls/engines/engine/throttle", arrayOfTokens[24]);
+    mapForUpdateSimultorInfo.addValue("controls/engines/current-engine/throttle", arrayOfTokens[25]);
+    mapForUpdateSimultorInfo.addValue("controls/switches/master-avionics", arrayOfTokens[26]);
+    mapForUpdateSimultorInfo.addValue("controls/switches/starter", arrayOfTokens[27]);
+    mapForUpdateSimultorInfo.addValue("engines/active-engine/auto-start", arrayOfTokens[28]);
+    mapForUpdateSimultorInfo.addValue("controls/flight/speedbrake", arrayOfTokens[29]);
+    mapForUpdateSimultorInfo.addValue("sim/model/c172p/brake-parking", arrayOfTokens[30]);
+    mapForUpdateSimultorInfo.addValue("controls/engines/engine/primer", arrayOfTokens[31]);
+    mapForUpdateSimultorInfo.addValue("controls/engines/current-engine/mixture", arrayOfTokens[32]);
+    mapForUpdateSimultorInfo.addValue("controls/switches/master-bat", arrayOfTokens[33]);
+    mapForUpdateSimultorInfo.addValue("controls/switches/master-alt", arrayOfTokens[34]);
+    mapForUpdateSimultorInfo.addValue("engines/engine/rpm", arrayOfTokens[35]);
 }
 
 /*

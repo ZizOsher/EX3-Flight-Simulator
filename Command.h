@@ -11,6 +11,8 @@
 using namespace std;
 
 extern int client_socket;
+//int server_socket;
+
 typedef vector<string>::iterator itr;
 
 class Command {

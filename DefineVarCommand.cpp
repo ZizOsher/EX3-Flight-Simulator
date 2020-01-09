@@ -45,5 +45,9 @@ int DefineVarCommand::execute(itr itr1) {
         //cout << symTable.getVariable(name);
     }
     //cout << endl;
-    return 5;
+    return this->getSteps();
+}
+
+int DefineVarCommand::getSteps() {
+    return this->steps;
 }

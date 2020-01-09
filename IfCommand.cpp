@@ -9,7 +9,6 @@ int IfCommand::execute(itr itr1) {
     buildScope(itr1);
     for (Command* c : this->innerCommands) {
         ret += c->getSteps();
-        ret++; // To account for \n
     }
     itr1++;
     if (Interpreter::getInstance().interpretCondition(*itr1)) {

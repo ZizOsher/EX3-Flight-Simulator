@@ -31,7 +31,6 @@ void matchOperator(Variable* v, double val, string oper) {
  * @return cnt
  */
 int VarAssignCommand::execute(itr itr1) {
-    cout << "got to VarAssignCommand hooray" << endl;
     SymbolTable& SymTable = SymbolTable::getInstance();
     string subjectName = *itr1;
     itr1++;
@@ -55,5 +54,9 @@ int VarAssignCommand::execute(itr itr1) {
         string message = "The variable '" + subjectName + "' is not defined.";
         throw message;
     }
-    return 3;
+    return this->getSteps();
+}
+
+int VarAssignCommand::getSteps() {
+    return this->steps;
 }

@@ -19,9 +19,7 @@ private:
 public:
     // abstract class
     virtual int execute(itr itr1) = 0;
-    int getSteps() {
-        return this->steps;
-    };
+    virtual int getSteps() = 0;
 };
 
 class OpenServerCommand: public Command {
@@ -34,18 +32,18 @@ public:
     int execute(itr itr1) override;
     void joinThread();
     static void openServerToThread(itr itr1);
-    //int getSteps() override;
+    int getSteps() override;
 };
 
 class ConnectCommand: public Command {
 private:
     // create thread only when it's needed
     thread* clientThread;
-    int steps = 4;
+    int steps = 3;
 public:
     int execute(itr itr1) override;
     static void openClientThread(itr itr1);
-    //int getSteps() override;
+    int getSteps() override;
 
 };
 
@@ -54,7 +52,7 @@ private:
     int steps = 5;
 public:
     int execute(itr itr1) override;
-    //int getSteps() override;
+    int getSteps() override;
 
 };
 
@@ -63,7 +61,7 @@ private:
     int steps = 3;
 public:
     int execute(itr itr1) override;
-    //int getSteps() override;
+    int getSteps() override;
 
 };
 
@@ -72,7 +70,7 @@ private:
     int steps = 2;
 public:
     int execute(itr itr1) override;
-    //int getSteps() override;
+    int getSteps() override;
 
 };
 
@@ -82,7 +80,7 @@ private:
 public:
     int execute(itr itr1) override;
     void sleepFor(int milisceondsSleep);
-    //int getSteps() override;
+    int getSteps() override;
 
 };
 
@@ -91,10 +89,11 @@ private:
     int steps = 3;
 protected:
     list<Command*> innerCommands;
+    int stepsInScope;
 public:
     void buildScope(itr itr1);
     virtual int execute(itr itr1) = 0;
-    //int getSteps() override;
+    int getSteps();
 };
 
 class IfCommand: public ConditionParser {

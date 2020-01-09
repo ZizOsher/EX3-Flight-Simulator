@@ -26,13 +26,10 @@ list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
         //cout << token << endl;
         if (token == "var") {
             splitLimit = 3;
+        } else if (token == "while") {
+            splitLimit = 1;
         }
         if (!token.empty()) {
-            /*
-            if (delimiter == ' ') {
-                cout << token << endl;
-            }
-             */
             res.push_back(token);
         }
         input.erase(0, pos + delimiterOffset);
@@ -47,8 +44,16 @@ list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
 }
 
 bool isknownCommand(string input) {
-    return CommandMap::getInstance().getCommand(Lexer::split(input, ' ', 2).front()) != nullptr
-    || CommandMap::getInstance().getCommand(Lexer::split(input, '(', 2).front()) != nullptr;
+    CommandMap& commands = CommandMap::getInstance();
+    string check;
+    if (input[0] == ' ' || input[0] == ',' || input[0] == '\t') {
+        check  = input.substr(1);
+
+    } else {
+        check = input;
+    }
+    return commands.getCommand(Lexer::split(check, ' ', 2).front()) != nullptr
+    || commands.getCommand(Lexer::split(check, '(', 2).front()) != nullptr;
 }
 
 list<string> splitByParen(string input) {
@@ -134,12 +139,23 @@ vector<string> Lexer::lexer(string filename) {
     while (getline(lexerInput, line)) {
         //cout << line << endl;
         list<string> byQuotes = splitByQuotes(line);
+        // removing tabs
+        for (string s : byQuotes) {
+            if (s.find('\t') != string::npos) {
+                int pos = s.find_last_of('\t');
+                s = s.substr(pos + 1, s.size() - (pos + 1));
+            }
+        }
+
+        list<string> byRightCurlyBracket;
+        //cout << "byRightCurlyBracket: " << endl;
+        for (auto const& i : byQuotes) {
+            //cout << i << endl;
+            byRightCurlyBracket.splice(byRightCurlyBracket.end(), splitByRightCurlyBracket(i));
+        }
 
         list<string> byParen;
-        //cout << "byQuotes: " << endl;
-        //cout << byQuotes.size() << endl;
-
-        for (auto const& i : byQuotes) {
+        for (auto const& i : byRightCurlyBracket) {
             //cout << i << endl;
             byParen.splice(byParen.end(), splitByParen(i));
         }
@@ -158,39 +174,28 @@ vector<string> Lexer::lexer(string filename) {
             bySpace.splice(bySpace.end(), split(i, ' ', 2));
         }
 
-        list<string> byRightCurlyBracket;
-        //cout << "byRightCurlyBracket: " << endl;
-        for (auto const& i : bySpace) {
-            //cout << i << endl;
-            byRightCurlyBracket.splice(byRightCurlyBracket.end(), splitByRightCurlyBracket(i));
-        }
 
         //cout << "printing bySpace: " << endl;
-        while (!byRightCurlyBracket.empty()) {
+        while (!bySpace.empty()) {
             string comm;
-            comm = byRightCurlyBracket.front();
+            comm = bySpace.front();
             if (comm.find('\t') != string::npos) {
                 int pos = comm.find_last_of('\t');
                 comm = comm.substr(pos+1, comm.size() - (pos+1));
             }
             commands.push_back(comm);
-            byRightCurlyBracket.pop_front();
+            bySpace.pop_front();
         }
-        commands.emplace_back("\n");
+        //commands.emplace_back("\n");
     }
     lexerInput.close();
-    for (string s : commands) {
-        if (s.find('\t') != string::npos) { //TODO: This needs to be earlier. after quotes.
-            int pos = s.find_last_of('\t');
-            s = s.substr(pos+1, s.size() - (pos+1));
-        }
-    }
-/*
+
+
     //Print for testing: (Lexer includes newline characters.
     for (unsigned int i = 0; i < commands.size(); i++) {
-        cout << commands[i] << ",";
+        cout << commands[i] << "," << endl;
     }
     //end of test print
-*/
+
     return commands;
 }

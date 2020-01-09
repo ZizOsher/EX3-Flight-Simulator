@@ -12,5 +12,9 @@ int SleepCommand::execute(itr itr1) {
     Interpreter& i = Interpreter::getInstance();
     int sleepingTime = round(i.interpret(*itr1)->calculate());
     this->sleepFor(sleepingTime);
-    return 2;
+    return this->getSteps();
+}
+
+int SleepCommand::getSteps() {
+    return this->steps;
 }

@@ -6,6 +6,9 @@
 #include "Command.h"
 using namespace std;
 
+int OpenServerCommand::getSteps() {
+    return this->steps;
+};
 
 void OpenServerCommand::openServerToThread(itr itr1) {
     Server s;
@@ -16,7 +19,8 @@ int OpenServerCommand::execute(itr itr1) {
     //send the function to thread
     itr1++;
     MyThread = new thread(openServerToThread,itr1);
-    return 2;
+    cout << this->getSteps() << endl;
+    return this->getSteps();
 }
 
 void OpenServerCommand::joinThread() {

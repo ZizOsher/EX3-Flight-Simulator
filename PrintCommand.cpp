@@ -15,5 +15,9 @@ int PrintCommand::execute(itr itr1) {
         double res = i.interpret(printable)->calculate();
         cout << res << endl;
     }
-    return 2;
+    return this->getSteps();
+}
+
+int PrintCommand::getSteps() {
+    return this->steps;
 }

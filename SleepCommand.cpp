@@ -1,6 +1,6 @@
 #include "Command.h"
 #include "Interpreter.h"
-#include "math.h"
+#include <cmath>
 
 void SleepCommand::sleepFor(int milisceondsSleep) {
     // Sleep this thread

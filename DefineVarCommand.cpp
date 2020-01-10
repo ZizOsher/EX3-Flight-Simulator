@@ -1,6 +1,3 @@
-//
-// Created by osher on 05/01/2020.
-//
 #include "Command.h"
 #include "Expressions.h"
 #include "SymbolTable.h"
@@ -34,17 +31,18 @@ int DefineVarCommand::execute(itr itr1) {
         } else {
             res = new Variable(name, sim, true);
         }
-        //symTable.addVariable(name, res);
+        symTable.addVariable(name, res);
     } else if (bind == "=") {
         itr1++;
         string nameOfOtherVar = *itr1;
-        Variable* res = symTable.getVariable(nameOfOtherVar);
+        cout << nameOfOtherVar<< endl;
+        Variable* varToCopy = symTable.getVariable(nameOfOtherVar);
+        //cout << "got copy" << endl;
+        res = new Variable(name, varToCopy->calculate(), varToCopy->getSim(), varToCopy->isBoundOut());
+        //cout << "weeeeeeeeeee" << endl;
+        symTable.addVariable(name, res);
+        return 4;
     }
-    symTable.addVariable(name, res);
-    if (symTable.getVariable(name) != nullptr) {
-        //cout << symTable.getVariable(name);
-    }
-    //cout << endl;
     return this->getSteps();
 }
 

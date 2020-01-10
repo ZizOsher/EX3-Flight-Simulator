@@ -14,7 +14,7 @@
 
 #define PORT 5400
 using namespace std;
-int server_socket;
+mutex mutex1;
 
 int Server::openServer(itr itr1) {
     //create socket
@@ -31,7 +31,7 @@ int Server::openServer(itr itr1) {
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
 
-    Interpreter& i = Interpreter::getInstance();
+    Interpreter &i = Interpreter::getInstance();
     //int valPort = stoi(*itr1);
     int valPort = round(i.interpret(*itr1)->calculate());
     address.sin_port = htons(valPort);
@@ -51,70 +51,75 @@ int Server::openServer(itr itr1) {
     } else {
         std::cout << "Server is now listening ..." << std::endl;
     }
-
     // accepting a client
     socklen_t addrlen = sizeof(sockaddr_in);
-    int client_socket = accept(socketfd, (struct sockaddr *) &address, &addrlen);
+    //cout << "Bawk!" << endl;
+    mutex1.lock();
+    int client_socket1 = accept(socketfd, (struct sockaddr *) &address, &addrlen); // This aint happening...
+    mutex1.unlock();
 
-    if (client_socket == -1) {
+    if (client_socket1 == -1) {
         std::cerr << "Error accepting client" << std::endl;
         return -4;
     }
-    cout << "client accecpted" << endl;
-    Myclient_socket = client_socket;
+    cout << "client accepted" << endl;
+    Myclient_socket = client_socket1;
     isConnected = true;
     readFromClient();
     return 1;
 }
 
-    //reading from client
-void Server:: readFromClient(){
+//reading from client
+void Server::readFromClient() {
     char buffer[200000] = {0};
     // first get into the while, until reading ending reading from the simulator
     int valread = 0;
     // as long there is information from the simulator
-    while (isConnected && valread!= -1){
-        cout << "howdy!" << endl;
-        // lock the acess to the map
+    while (isConnected && valread != -1) {
+        //cout << "howdy!" << endl;
+        // lock the access to the map
         mutex1.lock();
-        int valread = read(Myclient_socket, buffer, size);
+        valread = read(Myclient_socket, buffer, size);
         splitAndPutIntoMap(size, buffer);
 
-        // unlock the acess to the map
+        // unlock the access to the map
         mutex1.unlock();
         //cout << "ASDFGHJK" << endl;
     }
 
-    std::cout<<buffer<<std::endl;
+    //std::cout<<buffer<<std::endl;
 
     close(Myclient_socket); //closing the listening socket
 }
-void Server::splitAndPutIntoMap(int size, char* buffer) {
 
+
+void Server::splitAndPutIntoMap(int size, char *buffer) {
     // collect chars
     string item = "";
     double val;
     double numforIndex36 = 0;
     unsigned int arrayIndex = 0;
-    for(int i=0; i< size; i++){
+    for (int i = 0; i < size; i++) {
 
-        if(buffer[i] == '\n'){
-            arrayOfTokens[arrayIndex]= val;
+        if (buffer[i] == '\n') {
+            val = stof(item);
+            arrayOfTokens[arrayIndex] = val;
             break;
         }
         if (buffer[i] == ',' && item != "") {
             // convert from string to double
-            val = stod(item);
-            arrayOfTokens[arrayIndex]= val;
+            val = stof(item);
+
+            arrayOfTokens[arrayIndex] = val;
             arrayIndex++;
             item = "";
-        //  if the char has value
+            //  if the char has value
         } else {
             item = item + buffer[i];
         }
     }
-    cout << "ping!!!" << endl;
-    SimIncomingInfo& mapForUpdateSimultorInfo = SimIncomingInfo::getInstance();
+    //cout << arrayOfTokens[35] << endl;
+    SimIncomingInfo &mapForUpdateSimultorInfo = SimIncomingInfo::getInstance();
 
     mapForUpdateSimultorInfo.addValue("instrumentation/airspeed-indicator/indicated-speed-kt", arrayOfTokens[0]);
     mapForUpdateSimultorInfo.addValue("sim/time/warp", arrayOfTokens[1]);
@@ -135,7 +140,8 @@ void Server::splitAndPutIntoMap(int size, char* buffer) {
     mapForUpdateSimultorInfo.addValue("instrumentation/magnetic-compass/indicated-heading-deg", arrayOfTokens[16]);
     mapForUpdateSimultorInfo.addValue("instrumentation/slip-skid-ball/indicated-slip-skid", arrayOfTokens[17]);
     mapForUpdateSimultorInfo.addValue("instrumentation/turn-indicator/indicated-turn-rate", arrayOfTokens[18]);
-    mapForUpdateSimultorInfo.addValue("instrumentation/vertical-speed-indicator/indicated-speed-fpm", arrayOfTokens[19]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/vertical-speed-indicator/indicated-speed-fpm",
+                                      arrayOfTokens[19]);
     mapForUpdateSimultorInfo.addValue("controls/flight/aileron", arrayOfTokens[20]);
     mapForUpdateSimultorInfo.addValue("controls/flight/elevator", arrayOfTokens[21]);
     mapForUpdateSimultorInfo.addValue("controls/flight/rudder", arrayOfTokens[22]);

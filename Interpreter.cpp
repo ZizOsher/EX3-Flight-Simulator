@@ -22,6 +22,7 @@ string Interpreter::removeAllWhiteSpaces(string input) {
     for (string s : v) {
         res = res + s;
     }
+    //cout << res << endl;
     return res;
 }
 
@@ -60,6 +61,7 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
             // Check if operator
         } else if (this->operators.find(token) != string::npos) {
             string opr;
+            //cout << token << endl;
             if (token == '+') {
                 if (index + 1 > inputToParse.size()) {      // Handles a binary operator at the end of the string.
                     throw "Invalid input.";
@@ -101,24 +103,35 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
                 } else if (index + 1 > inputToParse.size()) {  // Binary operator at the end of the input string.
                     throw "illegal math expression.";
                 } else {
+                    opr = "";
                     opr += token;
                 }
             }
             // If the operator is a function (some form of unary operation)
             if (isFunc(opr)) {
+                //cout << "opr is func: " << opr << endl;
+
                 operatorStack.push(opr);
             } else {
+                //cout << "opr not func: " << opr << endl;
+
                 if (operatorStack.empty()) {
+                    //cout << "operatorStack is empty, pushed: " << opr << " onto it." << endl;
                     operatorStack.push(opr);
                 } else {
-                    while ((precedenceMap[operatorStack.top()] > precedenceMap[opr])
+                    while (!operatorStack.empty() && (precedenceMap[operatorStack.top()] >= precedenceMap[opr])
                            && (operatorStack.top() != "(")) {
+                        //cout << "got here" << endl;
                         string o1;
                         o1 += operatorStack.top();
+                        //cout << "o1: " << o1 << endl;
                         outputQueue.push(o1);
+                        //cout << "stack top: " << operatorStack.top() << endl;
                         operatorStack.pop();
+                        //cout << "iteration done" << endl;
                     }
                     operatorStack.push(opr);
+                    //cout << "pushed into stack: " << opr << endl;
                 }
             }
         } else if (token == '(') {
@@ -177,7 +190,7 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
                 message+= " is not set. Can't interpret.";
                 throw message;
             }
-        }else {
+        } else {
             if (item == "(+(") {
                 Expression* right = resStack.top();
                 resStack.pop();
@@ -299,13 +312,14 @@ string Interpreter::findNumInStr(const string s, int index) {
 }
 
 /**
- * This Method returns the number of indices in the input occupied by a number.
+ * This Method returns the number of indices in the input occupied by a Variable.
+ * This function is called after
  */
 string Interpreter::findVarInStr(const string s, int index) {
     string result;
     result += s[index];
     for (int i = 1; i < s.length(); i++) {
-        if (isalpha(s[index + i]) || s[index + i] == '_') {
+        if (this->operators.find(s[index + i]) == string::npos && s[index + i] != '(' && s[index + i] != ')') {
             result += s[index + i];
         } else {
             break;

@@ -190,12 +190,12 @@ vector<string> Lexer::lexer(string filename) {
     }
     lexerInput.close();
 
-
+/*
     //Print for testing: (Lexer includes newline characters.
     for (unsigned int i = 0; i < commands.size(); i++) {
         cout << commands[i] << "," << endl;
     }
     //end of test print
-
+*/
     return commands;
 }

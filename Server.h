@@ -19,7 +19,7 @@ private:
     int size = 200000;
     int Myclient_socket;
     bool isConnected = false;
-    mutex mutex1;
+
 
     double infoInDoubleType;
     double arrayOfTokens[36];

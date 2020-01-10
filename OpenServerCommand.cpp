@@ -1,7 +1,3 @@
-//
-// Created by hadar on 06/01/2020.
-//
-
 #include <iostream>
 #include "Command.h"
 using namespace std;

@@ -21,6 +21,7 @@ public:
     // abstract class
     virtual int execute(itr itr1) = 0;
     virtual int getSteps() = 0;
+    //virtual ~Command();
 };
 
 class OpenServerCommand: public Command {
@@ -34,6 +35,7 @@ public:
     void joinThread();
     static void openServerToThread(itr itr1);
     int getSteps() override;
+    ~OpenServerCommand();
 };
 
 class ConnectCommand: public Command {

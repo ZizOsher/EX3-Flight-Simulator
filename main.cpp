@@ -15,31 +15,13 @@
 #include "Interpreter.h"
 #include "Expressions.h"
 
-#define PORT 8081
-
 using namespace std;
 
 int main(int argc, char const *argv[]) {
     vector<string> vectorofStrings;
+    //vectorofStrings = Lexer::lexer(argv[1]);
     vectorofStrings = Lexer::lexer("fly.txt");
     Parser::parse(vectorofStrings);
     close(client_socket);
     return 0;
-
-
 }
-
-
-// test for server and client /////////////////////////////////
-    // check the server
-/*
-    vector<string> vec = {"openDateServer", "5400"};
-    openDateServer o;
-    o.execute(vec.begin());
-    o.joinThread();
-/*
-    // check the client
-    Client client;
-    client.openClient();
-*/
-////////////////////////////////////////////////////////////////////////////

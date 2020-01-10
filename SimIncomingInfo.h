@@ -1,7 +1,3 @@
-//
-// Created by osher on 05/01/2020.
-//
-
 #ifndef UNTITLED1_SIMINCOMINGINFO_H
 #define UNTITLED1_SIMINCOMINGINFO_H
 #include <unordered_map>

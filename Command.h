@@ -1,4 +1,3 @@
-
 #ifndef UNTITLED1_COMMAND_H
 #define UNTITLED1_COMMAND_H
 #include <vector>
@@ -11,7 +10,7 @@
 using namespace std;
 
 extern int client_socket;
-//int server_socket;
+extern mutex mutex1;
 
 typedef vector<string>::iterator itr;
 

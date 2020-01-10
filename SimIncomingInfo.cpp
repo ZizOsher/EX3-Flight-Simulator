@@ -1,7 +1,5 @@
 #include "SimIncomingInfo.h"
 
-//TODO: Create interface for database style classes: SimIncomingInfo, SymbolTable, CommandMap.
-
 SimIncomingInfo::SimIncomingInfo(){}
 
 SimIncomingInfo& SimIncomingInfo::getInstance() {

@@ -138,7 +138,7 @@ void Server::splitAndPutIntoMap(int size, char *buffer) {
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-altitude-ft", arrayOfTokens[12]);
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-ground-speed-kt", arrayOfTokens[13]);
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-vertical-speed", arrayOfTokens[14]);
-    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/offset-deg", arrayOfTokens[15]); // change back to instrumentation/heading-indicator/indicated-heading-deg
+    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/indicated-heading-deg", arrayOfTokens[15]); // change back to instrumentation/heading-indicator/indicated-heading-deg on 2018 simulator: "instrumentation/heading-indicator/offset-deg"
     mapForUpdateSimultorInfo.addValue("instrumentation/magnetic-compass/indicated-heading-deg", arrayOfTokens[16]);
     mapForUpdateSimultorInfo.addValue("instrumentation/slip-skid-ball/indicated-slip-skid", arrayOfTokens[17]);
     mapForUpdateSimultorInfo.addValue("instrumentation/turn-indicator/indicated-turn-rate", arrayOfTokens[18]);

@@ -4,7 +4,6 @@
 
 #include "CommandMap.h"
 
-//CommandMap::CommandMap(){}
 
 CommandMap& CommandMap::getInstance() {
     static CommandMap oneInstance;
@@ -22,3 +21,8 @@ bool CommandMap::isInMap(string symbol) {
 void CommandMap::addCommand(string symbol, Command* command) {
     this->commandMap[symbol]=command;
 }
+
+CommandMap::~CommandMap() {
+    
+}
+

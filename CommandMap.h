@@ -32,6 +32,7 @@ class CommandMap {
         Command* getCommand(string symbol);
         bool isInMap(string symbol);
         void addCommand(string symbol, Command* command);
+        ~CommandMap();
 };
 
 #endif //UNTITLED1_COMMANDMAP_H

@@ -24,4 +24,8 @@ void OpenServerCommand::joinThread() {
     }
 }
 
+OpenServerCommand::~OpenServerCommand() {
+    delete this->MyThread;
+}
+
 

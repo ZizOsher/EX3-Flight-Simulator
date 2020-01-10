@@ -5,7 +5,6 @@
 #include <iostream>
 #include "Lexer.h"
 #include "CommandMap.h"
-#include <string>
 
 using namespace std;
 
@@ -23,7 +22,6 @@ list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
     //cout << "input is: " << input << " and the delimiter is: " << delimiter << endl;
     while ((pos = input.find(delimiter)) != string::npos && counter < splitLimit) {
         token = input.substr(0, pos);
-        //cout << token << endl;
         if (token == "var") {
             splitLimit = 3;
         } else if (token == "while") {
@@ -173,7 +171,6 @@ vector<string> Lexer::lexer(string filename) {
             //cout << i << endl;
             bySpace.splice(bySpace.end(), split(i, ' ', 2));
         }
-
 
         //cout << "printing bySpace: " << endl;
         while (!bySpace.empty()) {

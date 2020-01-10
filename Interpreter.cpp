@@ -6,7 +6,6 @@
 #include <queue>
 #include <list>
 #include <stdexcept>
-#include <vector>
 #include "SimIncomingInfo.h"
 
 Interpreter::~Interpreter() {}
@@ -22,7 +21,6 @@ string Interpreter::removeAllWhiteSpaces(string input) {
     for (string s : v) {
         res = res + s;
     }
-    //cout << res << endl;
     return res;
 }
 
@@ -109,29 +107,19 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
             }
             // If the operator is a function (some form of unary operation)
             if (isFunc(opr)) {
-                //cout << "opr is func: " << opr << endl;
-
                 operatorStack.push(opr);
             } else {
-                //cout << "opr not func: " << opr << endl;
-
                 if (operatorStack.empty()) {
-                    //cout << "operatorStack is empty, pushed: " << opr << " onto it." << endl;
                     operatorStack.push(opr);
                 } else {
                     while (!operatorStack.empty() && (precedenceMap[operatorStack.top()] >= precedenceMap[opr])
                            && (operatorStack.top() != "(")) {
-                        //cout << "got here" << endl;
                         string o1;
                         o1 += operatorStack.top();
-                        //cout << "o1: " << o1 << endl;
                         outputQueue.push(o1);
-                        //cout << "stack top: " << operatorStack.top() << endl;
                         operatorStack.pop();
-                        //cout << "iteration done" << endl;
                     }
                     operatorStack.push(opr);
-                    //cout << "pushed into stack: " << opr << endl;
                 }
             }
         } else if (token == '(') {
@@ -173,14 +161,9 @@ Expression* Interpreter::ShuntingYard(const string& inputToParse) {
             resStack.push(ex);
         } else if (isalpha(item[0])) {
             try {
-                /*
-                 * double val;
-                val = setVarsMap[item];
-                Variable *ex = new Variable(item, val);
-                resStack.push(ex);
-                 */
+                //Variable *ex = new Variable(item, setVarsMap[item]);
                 Variable *ex = SymTable.getVariable(item);
-                if (!ex->isBoundOut()) {
+                if (!ex->isBoundOut() && ex->isBoundToSim()) {
                     ex->setValue(simVals.getValue(ex->getSim()));
                 }
                 resStack.push(ex);
@@ -313,13 +296,17 @@ string Interpreter::findNumInStr(const string s, int index) {
 
 /**
  * This Method returns the number of indices in the input occupied by a Variable.
- * This function is called after
+ * This function is called based on the knowledge that the first index holds a alphabetic character.
  */
 string Interpreter::findVarInStr(const string s, int index) {
     string result;
     result += s[index];
     for (int i = 1; i < s.length(); i++) {
-        if (this->operators.find(s[index + i]) == string::npos && s[index + i] != '(' && s[index + i] != ')') {
+        if (this->operators.find(s[index + i]) == string::npos
+            && s[index + i] != '('
+            && s[index + i] != ')'
+            && s[index + i] != '=') {
+
             result += s[index + i];
         } else {
             break;
@@ -330,9 +317,9 @@ string Interpreter::findVarInStr(const string s, int index) {
 
 
 bool resultInBool(double result){
-    if(result== 1){
+    if (result== 1) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -345,7 +332,6 @@ bool Interpreter::interpretCondition(string str) {
     bool boolResult;
 
     string operatorsArray[6] = {"<", ">","<=", ">=", "==", "!="};
-    // stringstream class check1
     string delimiter;
     int pos;
     int len;
@@ -372,32 +358,32 @@ bool Interpreter::interpretCondition(string str) {
     // convert the string into expressions right and left
     expressionLeft = interpret(tokens[0]);
     expressionRight = interpret(tokens[2]);
-    if(operand == "<") {
+    if (operand == "<") {
         expression = new LessThan(expressionLeft,expressionRight);
         result = expression->calculate();
         boolResult = resultInBool(result);
         return boolResult;
-    } else if(operand == "<=") {
+    } else if (operand == "<=") {
         expression = new NotGreaterThan(expressionLeft,expressionRight);
         result = expression->calculate();
         boolResult = resultInBool(result);
         return boolResult;
-    }else if(operand == "==") {
+    }else if (operand == "==") {
         expression = new Equal(expressionLeft,expressionRight);
         result = expression->calculate();
         boolResult = resultInBool(result);
         return boolResult;
-    } else if(operand == "!=") {
+    } else if (operand == "!=") {
         expression = new NotEqual(expressionLeft,expressionRight);
         result = expression->calculate();
         boolResult = resultInBool(result);
         return boolResult;
-    } else if(operand == ">") {
+    } else if (operand == ">") {
         expression = new GreaterThan(expressionLeft,expressionRight);
         result = expression->calculate();
         boolResult = resultInBool(result);
         return boolResult;
-    } else if(operand == ">=") {
+    } else if (operand == ">=") {
         expression = new NotLessThan(expressionLeft,expressionRight);
         result = expression->calculate();
         boolResult = resultInBool(result);

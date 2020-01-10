@@ -35,7 +35,6 @@ public:
     bool isFunc(string f);
     void setVariables(const string &s);
     bool isaNumber(const string &str);
-    //bool isaVariable(const string &str);
     Interpreter(Interpreter const&) = delete;
     // in = we create a new copy of the map;
     void operator= (Interpreter const&) = delete;

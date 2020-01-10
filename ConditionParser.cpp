@@ -1,12 +1,10 @@
-//
-// Created by osher on 08/01/2020.
-//
 #include "Command.h"
 #include "SymbolTable.h"
 #include "CommandMap.h"
 #include <iostream>
+
 void ConditionParser::buildScope(itr itr1) {
-    cout << "Building scope: " << endl;
+    //cout << "Building scope: " << endl;
     SymbolTable& symTable = SymbolTable::getInstance();
     CommandMap& commie = CommandMap::getInstance();
     itr1 += 3;
@@ -28,7 +26,7 @@ void ConditionParser::buildScope(itr itr1) {
             itr1++;
         }
     }
-    cout << "scope built" << endl;
+    //cout << "scope built" << endl;
 }
 
 int ConditionParser::getSteps() {

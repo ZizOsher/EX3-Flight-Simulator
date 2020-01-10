@@ -13,6 +13,7 @@
 #include "Parser.h"
 #include <vector>
 #include "Interpreter.h"
+#include "Expressions.h"
 
 #define PORT 8081
 
@@ -23,6 +24,7 @@ int main(int argc, char const *argv[]) {
     vectorofStrings = Lexer::lexer("fly.txt");
     Parser::parse(vectorofStrings);
     close(client_socket);
+    return 0;
 
 
 }

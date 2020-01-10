@@ -23,6 +23,6 @@ void CommandMap::addCommand(string symbol, Command* command) {
 }
 
 CommandMap::~CommandMap() {
-    
+    this->commandMap.clear();
 }
 

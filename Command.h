@@ -21,7 +21,7 @@ public:
     // abstract class
     virtual int execute(itr itr1) = 0;
     virtual int getSteps() = 0;
-    //virtual ~Command();
+    virtual ~Command() {};
 };
 
 class OpenServerCommand: public Command {
@@ -47,7 +47,7 @@ public:
     int execute(itr itr1) override;
     static void openClientThread(itr itr1);
     int getSteps() override;
-
+    ~ConnectCommand();
 };
 
 class DefineVarCommand: public Command {
@@ -56,7 +56,7 @@ private:
 public:
     int execute(itr itr1) override;
     int getSteps() override;
-
+    virtual ~DefineVarCommand() {};
 };
 
 class VarAssignCommand: public Command {
@@ -65,6 +65,7 @@ private:
 public:
     int execute(itr itr1) override;
     int getSteps() override;
+    virtual ~VarAssignCommand() {};
 
 };
 
@@ -74,7 +75,7 @@ private:
 public:
     int execute(itr itr1) override;
     int getSteps() override;
-
+    virtual ~PrintCommand() {};
 };
 
 class SleepCommand: public Command {
@@ -84,7 +85,7 @@ public:
     int execute(itr itr1) override;
     void sleepFor(int milisceondsSleep);
     int getSteps() override;
-
+    virtual ~SleepCommand() {};
 };
 
 class ConditionParser: public Command {
@@ -97,16 +98,20 @@ public:
     void buildScope(itr itr1);
     virtual int execute(itr itr1) = 0;
     int getSteps();
+    virtual ~ConditionParser() {};
 };
 
 class IfCommand: public ConditionParser {
 public:
     int execute(itr itr1) override;
+    ~IfCommand();
 };
 
 class LoopCommand: public ConditionParser {
 public:
     int execute(itr itr1) override;
+    ~LoopCommand();
+
 };
 
 #endif //UNTITLED1_COMMAND_H

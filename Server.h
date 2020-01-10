@@ -8,6 +8,7 @@
 #include "Command.h"
 
 using namespace std;
+extern bool done;
 
 typedef vector<string>::iterator itr;
 

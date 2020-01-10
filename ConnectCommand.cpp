@@ -14,4 +14,8 @@ int ConnectCommand::execute(itr itr1) {
 
 int ConnectCommand::getSteps() {
     return this->steps;
-};
+}
+
+ConnectCommand::~ConnectCommand() {
+    delete this->clientThread;
+}

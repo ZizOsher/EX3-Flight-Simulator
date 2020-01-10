@@ -7,7 +7,6 @@
 #include "SimIncomingInfo.h"
 #include "Interpreter.h"
 #include <cmath>
-#include "Command.h"
 
 using namespace std;
 mutex mutex1;
@@ -54,7 +53,6 @@ int Server::openServer(itr itr1) {
     }
     // accepting a client
     socklen_t addrlen = sizeof(sockaddr_in);
-    //cout << "Bawk!" << endl;
     mutex1.lock();
     int client_socket1 = accept(socketfd, (struct sockaddr *) &address, &addrlen); // This aint happening...
     mutex1.unlock();
@@ -86,6 +84,9 @@ void Server::readFromClient() {
         splitAndPutIntoMap(size, buffer);
         // unlock the access to the map
         mutex1.unlock();
+        if (done) {
+            break;
+        }
     }
     close(Myclient_socket); //closing the listening socket
 }
@@ -138,7 +139,9 @@ void Server::splitAndPutIntoMap(int size, char *buffer) {
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-altitude-ft", arrayOfTokens[12]);
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-ground-speed-kt", arrayOfTokens[13]);
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-vertical-speed", arrayOfTokens[14]);
-    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/indicated-heading-deg", arrayOfTokens[15]); // change back to instrumentation/heading-indicator/indicated-heading-deg on 2018 simulator: "instrumentation/heading-indicator/offset-deg"
+    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/offset-deg", arrayOfTokens[15]); // change back to instrumentation/heading-indicator/indicated-heading-deg on 2018 simulator: "instrumentation/heading-indicator/offset-deg"
+    //mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/indicated-heading-deg", arrayOfTokens[15]); // change back to instrumentation/heading-indicator/indicated-heading-deg on 2018 simulator: "instrumentation/heading-indicator/offset-deg"
+
     mapForUpdateSimultorInfo.addValue("instrumentation/magnetic-compass/indicated-heading-deg", arrayOfTokens[16]);
     mapForUpdateSimultorInfo.addValue("instrumentation/slip-skid-ball/indicated-slip-skid", arrayOfTokens[17]);
     mapForUpdateSimultorInfo.addValue("instrumentation/turn-indicator/indicated-turn-rate", arrayOfTokens[18]);

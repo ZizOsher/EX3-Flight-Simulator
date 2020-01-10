@@ -37,9 +37,7 @@ int DefineVarCommand::execute(itr itr1) {
         string nameOfOtherVar = *itr1;
         cout << nameOfOtherVar<< endl;
         Variable* varToCopy = symTable.getVariable(nameOfOtherVar);
-        //cout << "got copy" << endl;
-        res = new Variable(name, varToCopy->calculate(), varToCopy->getSim(), varToCopy->isBoundOut());
-        //cout << "weeeeeeeeeee" << endl;
+        res = new Variable(name, varToCopy->calculate(), false);
         symTable.addVariable(name, res);
         return 4;
     }

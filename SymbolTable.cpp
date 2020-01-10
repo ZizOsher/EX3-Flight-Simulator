@@ -1,7 +1,3 @@
-//
-// Created by osher on 05/01/2020.
-//
-
 #include "Expressions.h"
 #include "SymbolTable.h"
 

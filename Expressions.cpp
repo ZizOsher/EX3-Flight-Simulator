@@ -57,12 +57,9 @@ string Variable::getSim() {
     return this->sim;
 }
 
-/*
-Variable &Variable::operator=(double d) {
-    this->value = d;
-    return *this;
+bool Variable::isBoundToSim() {
+    return this->BoundToSim;
 }
- */
 
 UnaryOperator::~UnaryOperator() {
     //delete this->exp;
@@ -131,9 +128,6 @@ Mul::~Mul() {
     delete this->right;
 }
 
-/////////////////////////////////////////////////////////// expression for this project
-
-
 double Equal:: calculate() {
     if(this->left->calculate() == this->right->calculate()){
         return 1;
@@ -175,7 +169,6 @@ NotGreaterThan::~NotGreaterThan() {
     delete this->left;
 }
 
-// not less than
 double NotLessThan:: calculate() {
     if(this->left->calculate() >= this->right->calculate()){
         return 1;
@@ -189,7 +182,6 @@ NotLessThan::~NotLessThan() {
     delete this->right;
 }
 
-// greater
 double GreaterThan::calculate() {
     if(this->left->calculate() > this->right->calculate()){
         return 1;
@@ -203,7 +195,6 @@ GreaterThan:: ~GreaterThan() {
     delete this->left;
 }
 
-// lesser
 double LessThan::calculate() {
     if(this->left->calculate() < this->right->calculate()){
         return 1;

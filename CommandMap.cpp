@@ -22,12 +22,3 @@ bool CommandMap::isInMap(string symbol) {
 void CommandMap::addCommand(string symbol, Command* command) {
     this->commandMap[symbol]=command;
 }
-
-/*
-void CommandMap::buildCommandMap() {
-    addCommand("openDataServer", new OpenServerCommand());
-    addCommand("connectControlClient", new ConnectCommand());
-    addCommand("var", new DefineVarCommand());
-    //addCommand("Print", new PrintCommand());
-}
- */

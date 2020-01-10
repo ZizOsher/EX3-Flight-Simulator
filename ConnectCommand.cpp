@@ -1,11 +1,6 @@
-//
-// Created by hadar on 06/01/2020.
-//
-
 #include "Command.h"
 #include "Client.h"
 #include <thread>
-
 
 void ConnectCommand::openClientThread(itr itr1) {
     Client c;

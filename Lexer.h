@@ -1,7 +1,3 @@
-//
-// Created by osher on 23/12/2019.
-//
-
 #ifndef FLIGHT_SIMULATOR_LEXER_H
 #define FLIGHT_SIMULATOR_LEXER_H
 #include <string>
@@ -14,6 +10,5 @@ class Lexer {
         static vector<string> lexer(string filename);
         static list<string> split(string input, char delimiter, size_t splitLimit);
 };
-
 
 #endif //FLIGHT_SIMULATOR_LEXER_H

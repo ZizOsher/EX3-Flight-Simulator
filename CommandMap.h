@@ -8,7 +8,6 @@
 using namespace std;
 
 class CommandMap {
-
     private:
         CommandMap() {
             addCommand("openDataServer", new OpenServerCommand());
@@ -33,8 +32,6 @@ class CommandMap {
         Command* getCommand(string symbol);
         bool isInMap(string symbol);
         void addCommand(string symbol, Command* command);
-        //void buildCommandMap();
 };
-
 
 #endif //UNTITLED1_COMMANDMAP_H

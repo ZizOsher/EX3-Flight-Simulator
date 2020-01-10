@@ -30,7 +30,8 @@ class Variable : public Expression {
     string name;
     double value;
 	string sim;
-	bool simBindOut;
+	bool simBindOut = false;
+	bool BoundToSim = true;
     public:
         Variable(string n, double v) {
             this->name = n;
@@ -50,8 +51,12 @@ class Variable : public Expression {
         Variable(string n) {
             this->name = n;
         }
+        Variable(string n, double v, bool l){
+            this->name = n;
+            this->value = v;
+            this->BoundToSim = l;
+        }
         double calculate();
-        //Variable& operator=(double d);
         Variable& operator++();
         Variable& operator--();
         Variable& operator+=(double d);
@@ -61,6 +66,7 @@ class Variable : public Expression {
         void setValue(double d);
         string getSim();
         bool isBoundOut();
+        bool isBoundToSim();
         //virtual ~Variable() {};
 };
 
@@ -133,9 +139,6 @@ class Mul : public BinaryOperator {
         virtual ~Mul();
 
 };
-
-/////////////////////////////////////////////////// add classes to the current project
-
 
 class Equal : public BinaryOperator{
 public:

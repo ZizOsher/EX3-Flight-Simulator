@@ -1,21 +1,22 @@
-
 #include "Server.h"
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
-#include <fstream>
 #include <mutex>
 #include <iostream>
-#include <cstring>
 #include "SimIncomingInfo.h"
 #include "Interpreter.h"
-#include <math.h>
+#include <cmath>
 #include "Command.h"
 
-#define PORT 5400
 using namespace std;
 mutex mutex1;
 
+/**
+ * This Function establishes our connection to the simulator with us as a client and the simulator as a server.
+ * @param itr1
+ * @return 1
+ */
 int Server::openServer(itr itr1) {
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -69,30 +70,32 @@ int Server::openServer(itr itr1) {
     return 1;
 }
 
-//reading from client
+/**
+ * This function receives the information sent from the simulator. Then, it calls on the function splitAndPutIntoMap to
+ * handle that information.
+ */
 void Server::readFromClient() {
     char buffer[200000] = {0};
     // first get into the while, until reading ending reading from the simulator
     int valread = 0;
     // as long there is information from the simulator
     while (isConnected && valread != -1) {
-        //cout << "howdy!" << endl;
         // lock the access to the map
         mutex1.lock();
         valread = read(Myclient_socket, buffer, size);
         splitAndPutIntoMap(size, buffer);
-
         // unlock the access to the map
         mutex1.unlock();
-        //cout << "ASDFGHJK" << endl;
     }
-
-    //std::cout<<buffer<<std::endl;
-
     close(Myclient_socket); //closing the listening socket
 }
 
-
+/**
+ * This function splits the information from the server into chunks based on ',', and places it into the singleton
+ * SimIncomingInfo, where each simulator variable we will be querying is stored.
+ * @param size
+ * @param buffer
+ */
 void Server::splitAndPutIntoMap(int size, char *buffer) {
     // collect chars
     string item = "";
@@ -118,7 +121,6 @@ void Server::splitAndPutIntoMap(int size, char *buffer) {
             item = item + buffer[i];
         }
     }
-    //cout << arrayOfTokens[35] << endl;
     SimIncomingInfo &mapForUpdateSimultorInfo = SimIncomingInfo::getInstance();
 
     mapForUpdateSimultorInfo.addValue("instrumentation/airspeed-indicator/indicated-speed-kt", arrayOfTokens[0]);
@@ -136,7 +138,7 @@ void Server::splitAndPutIntoMap(int size, char *buffer) {
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-altitude-ft", arrayOfTokens[12]);
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-ground-speed-kt", arrayOfTokens[13]);
     mapForUpdateSimultorInfo.addValue("instrumentation/gps/indicated-vertical-speed", arrayOfTokens[14]);
-    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/indicated-heading-deg", arrayOfTokens[15]);
+    mapForUpdateSimultorInfo.addValue("instrumentation/heading-indicator/offset-deg", arrayOfTokens[15]); // change back to instrumentation/heading-indicator/indicated-heading-deg
     mapForUpdateSimultorInfo.addValue("instrumentation/magnetic-compass/indicated-heading-deg", arrayOfTokens[16]);
     mapForUpdateSimultorInfo.addValue("instrumentation/slip-skid-ball/indicated-slip-skid", arrayOfTokens[17]);
     mapForUpdateSimultorInfo.addValue("instrumentation/turn-indicator/indicated-turn-rate", arrayOfTokens[18]);
@@ -159,36 +161,3 @@ void Server::splitAndPutIntoMap(int size, char *buffer) {
     mapForUpdateSimultorInfo.addValue("controls/switches/master-alt", arrayOfTokens[34]);
     mapForUpdateSimultorInfo.addValue("engines/engine/rpm", arrayOfTokens[35]);
 }
-
-/*
- *     // Splits str[] according to ','.
-    // and returns next token.
-    // It needs to be called
-    // in a loop to get all tokens. It returns NULL
-    // when there are no more tokens.
-    int i=0;
-    const char deli[2] = ",";
-    // Retu // Splits str[] according to ','.
-    // and returns next token.
-    // It needs to be called
-    // in a loop to get all tokens. It returns NULL
-    // when there are no more tokens.
-    int i=0;
-    const crns first token
-    char* token= strtok(buffer,deli);
-    arrayOfTokens[i]= atof(token);
-
-    // go over all the other tokens
-    for(i=1; i<36; i++){
-        printf("%s\n", token);
-        // after it, put the token into the map in order
-
-        // convert the token form string into double
-        infoInDoubleType = atof(token);
-        arrayOfTokens[i] = infoInDoubleType;
-
-        //If you pass a NULL value, you are asking to
-        // continue tokenizing the same string as before.
-        token = strtok(NULL,deli);
-    }
- */

@@ -14,10 +14,6 @@ Command *CommandMap::getCommand(string symbol) {
     return this->commandMap[symbol];
 }
 
-bool CommandMap::isInMap(string symbol) {
-    return this->commandMap.find(symbol)!= this->commandMap.end();
-}
-
 void CommandMap::addCommand(string symbol, Command* command) {
     this->commandMap[symbol]=command;
 }

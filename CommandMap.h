@@ -22,15 +22,12 @@ class CommandMap {
         //using pointer to connect between string and command in hash function
         // because int as a pointer has a hash function
         unordered_map <string, Command*> commandMap;
-
     public:
         CommandMap(CommandMap const&) = delete;
         // in = we create a new copy of the map;
         void operator= (CommandMap const&) = delete;
-
         static CommandMap& getInstance();
         Command* getCommand(string symbol);
-        bool isInMap(string symbol);
         void addCommand(string symbol, Command* command);
         ~CommandMap();
 };

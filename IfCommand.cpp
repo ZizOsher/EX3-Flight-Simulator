@@ -24,3 +24,7 @@ int IfCommand::execute(itr itr1) {
     this->innerCommands.clear();
     return (this->getSteps() + ret + 1);
 }
+
+IfCommand::~IfCommand() {
+    this->innerCommands.clear();
+}

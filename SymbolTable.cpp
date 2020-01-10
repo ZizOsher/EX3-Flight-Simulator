@@ -20,3 +20,7 @@ bool SymbolTable::isInMap(const string symbol) {
 void SymbolTable::addVariable(const string symbol, Variable* variable) {
     this->symbolTable[symbol] = variable;
 }
+
+SymbolTable::~SymbolTable() {
+    this->symbolTable.clear();
+}

@@ -24,6 +24,7 @@ public:
     Variable* getVariable(string symbol);
     bool isInMap(string symbol);
     void addVariable(string symbol, Variable* var);
+    ~SymbolTable();
 };
 
 #endif //UNTITLED1_SYMBOLTABLE_H

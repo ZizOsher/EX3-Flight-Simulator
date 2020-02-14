@@ -9,6 +9,7 @@ void ConnectCommand::openClientThread(itr itr1) {
 
 int ConnectCommand::execute(itr itr1) {
     clientThread = new thread(openClientThread,itr1);
+    clientThread->join();
     return this->getSteps();
 }
 

@@ -1,9 +1,4 @@
-//
-// Created by hadar on 26/12/2019.
-//
-
 #include "CommandMap.h"
-
 
 CommandMap& CommandMap::getInstance() {
     static CommandMap oneInstance;

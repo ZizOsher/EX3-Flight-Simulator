@@ -24,7 +24,7 @@ list<string> Lexer::split(string input, char delimiter, size_t splitLimit) {
         token = input.substr(0, pos);
         if (token == "var") {
             splitLimit = 3;
-        } else if (token == "while") {
+        } else if (token == "while" || token == "if") {
             splitLimit = 1;
         }
         if (!token.empty()) {

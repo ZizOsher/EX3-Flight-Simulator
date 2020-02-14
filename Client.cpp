@@ -20,7 +20,6 @@ int Client::openClient(itr index) {
         std::cerr << "Could not create a socket" << std::endl;
         return -1;
     }
-
     index++;
     string ipAddress = *index;
     // Removing '"' from both ends of ip
@@ -55,7 +54,7 @@ int Client::openClient(itr index) {
 
 void Client::sendMessageToClient(string message) {
     // Send message to the server
-    ssize_t is_sent = write(client_socket, message.c_str(), message.length());
+    size_t is_sent = write(client_socket, message.c_str(), message.length());
     if (is_sent == -1) {
         std::cout << "Error sending message" << std::endl;
     } else {

@@ -5,8 +5,6 @@
 #include <iostream>
 using namespace std;
 
-// TODO: MAKE THAT MOTHERFUCKER FUCKING FLYYYYYYYYYYY
-
 void Parser::parse(vector<string> LexerResult) {
     itr index = LexerResult.begin();
     while (index != LexerResult.end()) {

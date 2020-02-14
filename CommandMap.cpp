@@ -1,4 +1,4 @@
-//
+//getInstance
 // Created by hadar on 26/12/2019.
 //
 

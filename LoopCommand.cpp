@@ -13,6 +13,9 @@ int LoopCommand::execute(itr itr1) {
     string condition = *itr1;
     itr1 += 2;
     bool con = i.interpretCondition(condition);
+    if (*itr1 == "{") {
+        itr1++;
+    }
     while (con) {
         int executed = 0;
         for (Command *c : this->innerCommands) {
